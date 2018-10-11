@@ -71,7 +71,7 @@ void moxie::ClientHandler::DoWrite(const std::shared_ptr<PollerEvent>& event, Ev
             if (errno == EINTR) {
                 continue;
             } else if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                goto AfterWriteLabel;
+                break;
             } else {
                 loop->Delete(event);
                 ::close(event_fd);
@@ -89,7 +89,6 @@ void moxie::ClientHandler::DoWrite(const std::shared_ptr<PollerEvent>& event, Ev
         writeBuf_.retrieve(ret);
     }
 
-AfterWriteLabel:
     try {
         this->AfetrWrite(event, loop);
     } catch (...) {
