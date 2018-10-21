@@ -17,6 +17,14 @@ func GetStringInSize(size uint, char string) (string, error) {
 	return ret[:size], nil
 }
 
+type Task struct {
+	client redis.Conn
+	datalen uint
+	keylen uint
+	addr string
+	reqs int
+}
+
 func main() {
 	routinenum := flag.Int("rn", 4, "Go routine Num!")
 	addr := flag.String("ip", "127.0.0.1:6379", "The address of redis server!")
@@ -31,60 +39,72 @@ func main() {
 	}
 
 	fmt.Printf("rn = %d, ip = %s, keylen = %d, datalen = %d, reqs = %d\n", *routinenum, *addr, *keylen, *datalen, *reqs)
-
-	var wg sync.WaitGroup
-	wg.Add(*routinenum)
-
-	var print_mutex sync.Mutex
 	var total_reqs uint64 = 0
-	var total_set_time int64 = 0
-	var total_get_time int64 = 0
-	for i := 0; i < *routinenum; i++ {
-		go func(id int, addr string, kenlen, datalen uint, reqs int) {
-			redisclient, err := redis.Dial("tcp", addr)
-			if err != nil {
-				wg.Add(-1)
-				return
-			}
-			defer redisclient.Close()
-			defer wg.Add(-1)
-			// do request
-			valueprefix, _ := GetStringInSize(datalen, "D")
-			keyprefix, _ := GetStringInSize(kenlen, "K")
-			var rq int
-	        start_set_time := time.Now()
-			for rq = 0; rq < reqs; rq++ {
-				key := strconv.Itoa(id) + keyprefix + strconv.Itoa(rq)
-				value := strconv.Itoa(id) + valueprefix + strconv.Itoa(rq)
-				reply, err := redisclient.Do("set", key, value)
-				if err != nil {
-					fmt.Println(reply)
-					break
-				}
-			}
-	        end_set_time := time.Now()
-			for grq := 0; grq < rq; grq++ {
-				key := strconv.Itoa(id) + keyprefix + strconv.Itoa(grq)
-				reply, err := redisclient.Do("get", key)
-				
-                if err != nil {
-					fmt.Println(reply)
-					break
-				}
-			}
-	        end_get_time := time.Now()
-			print_mutex.Lock()
-            total_set_time = GetTimeDelaUs(end_set_time.UnixNano(), start_set_time.UnixNano())
-            total_get_time = GetTimeDelaUs(end_get_time.UnixNano(), end_set_time.UnixNano())
-			total_reqs += uint64(rq)
-			print_mutex.Unlock()
-		}(i, *addr, *keylen, *datalen, *reqs)
+	var wg sync.WaitGroup
+
+	ctx := make([]Task, 0, *routinenum)
+	for c := 0; c < *routinenum; c++ {
+		redisclient, err := redis.Dial("tcp", *addr)
+		if err != nil {
+			fmt.Println("Build memcachedclient failed! error:", err)
+			return
+		}
+		ctx = append(ctx, Task{
+			client : redisclient,
+			datalen : *datalen,
+			keylen : *keylen,
+			addr : *addr,
+			reqs : *reqs,
+		})
+		total_reqs += uint64(*reqs)
 	}
 
+	wg.Add(*routinenum)
+	start_set_time := time.Now()
+	for i := 0; i < len(ctx); i++ {
+		go func(t *Task, id int) {
+			defer wg.Add(-1)
+			valueprefix, _ := GetStringInSize(t.datalen, "D")
+			keyprefix, _ := GetStringInSize(t.keylen, "K")
+			var rq int
+			for rq = 0; rq < t.reqs; rq++ {
+				key := strconv.Itoa(id) + keyprefix + strconv.Itoa(rq)
+				value := strconv.Itoa(id) + valueprefix + strconv.Itoa(rq)
+				_, err := t.client.Do("set", key, value)
+				if err != nil {
+					fmt.Println("Set Error:", err)
+					break
+				}
+			}
+		}(&ctx[i], i)
+	}
 	wg.Wait()
-    set_per_sec := float64(total_reqs) / float64(total_set_time) * 1000
+	end_set_time := time.Now()
+
+	wg.Add(*routinenum)
+	start_get_time := time.Now()
+	for i := 0; i < len(ctx); i++ {
+		go func(t *Task, id int) {
+			defer wg.Add(-1)
+			keyprefix, _ := GetStringInSize(t.keylen, "K")
+			var rq int
+			for rq = 0; rq < t.reqs; rq++ {
+				key := strconv.Itoa(id) + keyprefix + strconv.Itoa(rq)
+				_, err := t.client.Do("get", key)
+                if err != nil {
+					fmt.Println("Get Error:", err, " key:", key)
+					break
+				}
+			}
+		}(&ctx[i], i)
+	}
+	wg.Wait()
+	end_get_time := time.Now()
+	total_set_time := GetTimeDelaUs(end_set_time.UnixNano(), start_set_time.UnixNano())
+	total_get_time := GetTimeDelaUs(end_get_time.UnixNano(), start_get_time.UnixNano())
+	set_per_sec := float64(total_reqs) / float64(total_set_time) * 1000
     get_per_sec := float64(total_reqs) / float64(total_get_time) * 1000
-    fmt.Printf("total_reqs:[%d] set_per_sec:[%f] get_per_sec:[%f]\n", total_reqs, set_per_sec, get_per_sec)
+	fmt.Printf("total_reqs:[%d] set_per_sec:[%f] get_per_sec:[%f]\n", total_reqs, set_per_sec, get_per_sec)
 }
 
 func GetTimeDelaUs(end, start int64) int64 {
