@@ -43,7 +43,6 @@ private:
         std::string cmd = args[0];
         if (cmd == "set" || cmd == "SET") {
             if (CheckSetArgs(args)) {
-                moxie::MutexLocker lock(mutex_);
                 SlotObject *slot = slots_[BKDRHash(args[1].c_str()) % kSlotNum];
                 return slot->ApplySet(args[1], args[2], response);
             } else {
@@ -51,7 +50,6 @@ private:
             }
         } else if (cmd == "get" || cmd == "GET") {
             if (CheckGetArgs(args)) {
-                moxie::MutexLocker lock(mutex_);
                 SlotObject *slot = slots_[BKDRHash(args[1].c_str()) % kSlotNum];
                 return slot->ApplyGet(args[1], response);
             } else {

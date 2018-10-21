@@ -73,7 +73,7 @@ func main() {
 			print_mutex.Lock()
 			total_reqs += uint64(rq)
 			total_misshits += uint64(misshits)
-			fmt.Printf("In goroutine:%d, reqs=%d, misshits=%d\n", id, rq, misshits)
+			//			fmt.Printf("In goroutine:%d, reqs=%d, misshits=%d\n", id, rq, misshits)
 			print_mutex.Unlock()
 		}(i, *addr, *keylen, *datalen, *reqs)
 	}

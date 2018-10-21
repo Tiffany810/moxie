@@ -2,16 +2,17 @@ libs := -lpthread
 cflags := -std=c++11 -static -Wall -DNDEBUG
 CC = g++
 
-moxie_utils := ./utils
+moxie_root := ../
+moxie_base := ../base
 
 objects := $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 headers := $(wildcard *.h)
 
-utils:$(objects)
-	ar -crv libutils.a $^
-	mv libutils.a ../lib
+http:$(objects)
+	ar -crv libhttp.a $^
+	mv libhttp.a ../lib
 %.o:%.cpp $(headers)
-	$(CC) -c $<  -I${moxie_utils} -I./ $(cflags) -o $@  $(libs)
+	$(CC) -c $<  -I${moxie_root} -I${moxie_base} -I./ $(cflags) -o $@  $(libs)
 
 .PHONY : clean
 clean:

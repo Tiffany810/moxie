@@ -9,11 +9,13 @@ namespace moxie {
 
 class Client {
 public:
-    Client(std::string ip, short port, uint32_t connect_timeout);
+    Client(std::string ip, short port, int32_t connect_timeout);
     ~Client();
     bool Connect();
     std::string GetIp() const;
     short GetPort() const;
+    bool SetCloseExec();
+    bool SetNonblock();
 private:
     NetAddress addr_;
     int sock_;

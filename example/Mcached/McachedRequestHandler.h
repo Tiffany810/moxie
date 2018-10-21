@@ -35,6 +35,7 @@ private:
     };
 
     bool DoMcachedCammand();
+    void ApplyMcachedCommand();
     bool ParseRedisRequest();
     void DebugArgcArgv() const;
     void ReplyString(const std::string& error);

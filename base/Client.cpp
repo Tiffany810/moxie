@@ -24,11 +24,10 @@ moxie::Client::Client(std::string ip, short port, int32_t connect_timeout)
     : addr_(AF_INET, port, ip.c_str()),
      sock_(::socket(AF_INET, SOCK_STREAM, 0)),
      timeout_(connect_timeout) {
-    Socket::SetNoBlocking(sock_);
 }
 
 moxie::Client::~Client() { 
-    ::close(sock_) 
+    ::close(sock_);
 }
 
 bool moxie::Client::Connect() {
@@ -41,7 +40,7 @@ bool moxie::Client::Connect() {
     et.events = kReadEvent;
     et.data.fd = sock_;
 
-    poll.AddEvent(sock_, &et);
+    poll.EventAdd(sock_, &et);
 
     int ret = poll.LoopWait(&et, 1, timeout_);
     if (ret <= 0) {
@@ -52,9 +51,17 @@ bool moxie::Client::Connect() {
 }
 
 std::string moxie::Client::GetIp() const {
-    return ip_;
+    return addr_.getIp();
 }
 
 short moxie::Client::GetPort() const {
-    return port_;
+    return addr_.getPort();
+}
+
+bool moxie::Client::SetCloseExec() {
+    return Socket::SetExecClose(this->sock_);
+}
+
+bool moxie::Client::SetNonblock() {
+    return Socket::SetNoBlocking(sock_);
 }
