@@ -17,6 +17,14 @@ func GetStringInSize(size uint, char string) (string, error) {
 	return ret[:size], nil
 }
 
+type Task struct {
+	client *memcache.Client
+	datalen uint
+	keylen uint
+	addr string
+	reqs int
+}
+
 func main() {
 	routinenum := flag.Int("rn", 4, "Go routine Num!")
 	addr := flag.String("ip", "127.0.0.1:11211", "The address of redis server!")
@@ -30,57 +38,79 @@ func main() {
 		return
 	}
 
-	fmt.Printf("rn = %d, addr = %s, keylen = %d, datalen = %d, reqs = %d\n", *routinenum, *addr, *keylen, *datalen, *reqs)
+	fmt.Printf("rn = %d, ip = %s, keylen = %d, datalen = %d, reqs = %d\n", *routinenum, *addr, *keylen, *datalen, *reqs)
+
+	var total_reqs uint64 = 0
+
+	ctx := make([]Task, 0, *routinenum)
+	for c := 0; c < *routinenum; c++ {
+		memcachedclient := memcache.New(*addr)
+		memcachedclient.Timeout = 5000 * time.Millisecond
+		if memcachedclient == nil {
+			fmt.Println("Build memcachedclient failed!")
+			return
+		}
+		ctx = append(ctx, Task{
+			client : memcachedclient,
+			datalen : *datalen,
+			keylen : *keylen,
+			addr : *addr,
+			reqs : *reqs,
+		})
+		total_reqs += uint64(*reqs)
+	}
 
 	var wg sync.WaitGroup
 	wg.Add(*routinenum)
-
-	var print_mutex sync.Mutex
-	var total_reqs uint64 = 0
-	var total_misshits uint64 = 0
-	start_time := time.Now()
-	for i := 0; i < *routinenum; i++ {
-		go func(id int, addr string, kenlen, datalen uint, reqs int) {
-			memcachedclient := memcache.New(addr)
-			if memcachedclient == nil {
-				wg.Add(-1)
-				return
-			}
+	start_set_time := time.Now()
+	for i := 0; i < len(ctx); i++ {
+		go func(t *Task, id int) {
 			defer wg.Add(-1)
-			// do request
-			valueprefix, _ := GetStringInSize(datalen, "D")
-			keyprefix, _ := GetStringInSize(kenlen, "K")
-			var misshits uint64 = 0
+			valueprefix, _ := GetStringInSize(t.datalen, "D")
+			keyprefix, _ := GetStringInSize(t.keylen, "K")
 			var rq int
-			for rq = 0; rq < reqs; rq++ {
-				key := strconv.Itoa(i) + keyprefix + strconv.Itoa(rq)
-				value := strconv.Itoa(i) + valueprefix + strconv.Itoa(rq)
-				err := memcachedclient.Set(&memcache.Item{Key: key, Value: []byte(value)})
+			for rq = 0; rq < t.reqs; rq++ {
+				key := strconv.Itoa(id) + keyprefix + strconv.Itoa(rq)
+				value := strconv.Itoa(id) + valueprefix + strconv.Itoa(rq)
+				err := t.client.Set(&memcache.Item{Key: key, Value: []byte(value)})
 				if err != nil {
+                    fmt.Println("Set Error:", err)
 					break
-				}
-
-				reply, err := memcachedclient.Get(key)
-				if err != nil {
-					fmt.Println(reply)
-					break
-				}
-
-				if string(reply.Value[:]) != value {
-					misshits++
 				}
 			}
-			print_mutex.Lock()
-			total_reqs += uint64(rq)
-			total_misshits += uint64(misshits)
-			//			fmt.Printf("In goroutine:%d, reqs=%d, misshits=%d\n", id, rq, misshits)
-			print_mutex.Unlock()
-		}(i, *addr, *keylen, *datalen, *reqs)
+		}(&ctx[i], i)
 	}
-
 	wg.Wait()
-	end_time := time.Now()
-	total_time := (end_time.UnixNano() - start_time.UnixNano()) / int64(time.Millisecond)
-	persec := float64(total_reqs) / float64(total_time) * 1000
-	fmt.Printf("total_time:[%d]ms total_reqs:[%d] misshits:[%d] persec:[%f]\n", total_time, total_reqs, total_misshits, persec)
+	end_set_time := time.Now()
+
+	wg.Add(*routinenum)
+	start_get_time := time.Now()
+	for i := 0; i < len(ctx); i++ {
+		go func(t *Task, id int) {
+			// do request
+			defer wg.Add(-1)
+			keyprefix, _ := GetStringInSize(t.keylen, "K")
+			var rq int
+			for rq = 0; rq < t.reqs; rq++ {
+				key := strconv.Itoa(id) + keyprefix + strconv.Itoa(rq)
+				_, err := t.client.Get(key)
+				if err != nil {
+					fmt.Println("Get Error:", err, " key:", key)
+					break
+				}
+			}
+		}(&ctx[i], i)
+	}
+	wg.Wait()
+	end_get_time := time.Now()
+
+	total_set_time := GetTimeDelaUs(end_set_time.UnixNano(), start_set_time.UnixNano())
+	total_get_time := GetTimeDelaUs(end_get_time.UnixNano(), start_get_time.UnixNano())
+	set_per_sec := float64(total_reqs) / float64(total_set_time) * 1000
+    get_per_sec := float64(total_reqs) / float64(total_get_time) * 1000
+	fmt.Printf("total_reqs:[%d] set_per_sec:[%f] get_per_sec:[%f]\n", total_reqs, set_per_sec, get_per_sec)
+}
+
+func GetTimeDelaUs(end, start int64) int64 {
+    return (end - start) / int64(time.Millisecond)
 }
