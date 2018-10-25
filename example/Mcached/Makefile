@@ -1,4 +1,4 @@
-libs := -lhttp -lutils -lmoxie -lmcached -lprotobuf -ltcmalloc_minimal -lpthread 
+libs := -ljsoncpp -lcurl -lhttp -lutils -lmoxie -lmcached -lprotobuf -ltcmalloc_minimal -lpthread 
 cflags := -O2 -std=c++11 -static -Wall -DNDEBUG
 CC = g++
 
@@ -6,6 +6,7 @@ LDDIR += -L../../lib \
 		 -L./mcached \
 		 -L/opt/protobuf/lib \
 		 -L/opt/rocksdb/lib \
+		 -L/opt/jsoncpp/lib \
 		 -L/opt/gperftools-2.7/lib
 
 INCLUDEDIR += -I./ \
@@ -15,7 +16,8 @@ INCLUDEDIR += -I./ \
 			  -I../../utils \
 			  -I../../base \
 			  -I/opt/protobuf/include \
-			  -I/opt/rocksdb/include/
+			  -I/opt/rocksdb/include/ \
+			  -I/opt/jsoncpp/include
 
 moxie_base := ../../base
 moxie_libs := ../../base

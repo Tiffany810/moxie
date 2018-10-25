@@ -18,7 +18,8 @@ struct HttpServiceConf {
     std::string ip;
     short port;
     std::string work_path;
-    std::string etcd_server_list;
+    std::string manager_server_list;
+    std::string manager_server_path;
 };
 
 class McachedHttpService {
@@ -38,6 +39,7 @@ private:
     std::shared_ptr<PollerEvent> event_;
     EventLoop *loop_;
     std::shared_ptr<Thread> thread_;
+
 };
 
 }

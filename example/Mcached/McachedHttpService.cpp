@@ -1,5 +1,7 @@
 #include <functional>
 
+#include <json/json.h>
+
 #include <McachedHttpService.h>
 #include <Socket.h>
 
@@ -28,6 +30,8 @@ bool moxie::McachedHttpService::Init(const HttpServiceConf& conf) {
 
     event_ = std::make_shared<PollerEvent>(server, moxie::kReadEvent);
     server_->RegisterMethodCallback("POST", std::bind(&McachedHttpService::PostProcess, this, std::placeholders::_1, std::placeholders::_2));
+    server_->RegisterMethodCallback("post", std::bind(&McachedHttpService::PostProcess, this, std::placeholders::_1, std::placeholders::_2));
+
 
     thread_ = std::make_shared<Thread>(std::bind(&McachedHttpService::ThreadWorker, this));
     return true;
@@ -38,11 +42,26 @@ bool moxie::McachedHttpService::Start() {
 }
 
 void moxie::McachedHttpService::PostProcess(HttpRequest& request, HttpResponse& response) {
+    Json::Reader reader;  
+    Json::Value root;
+    std::cout << "In PostProcess" << std::endl;
+    if (request.GetBodyLength() == 0) {
+        // error
+        return;
+    } 
+    std::string body = std::string(request.GetBodyData(), request.GetBodyLength());
+    std::cout << "body:" << body << std::endl;
+    if (!reader.parse(body, root)) {
+        // error
+        return;
+    }
+
     response.SetScode("200");
     response.SetStatus("OK");
     response.SetVersion(request.GetVersion());
-    
-    std::string content = "<html><body> " + request.GetPath() + " </body></html>";
+    Json::FastWriter writer;  
+    std::string strWrite = writer.write(root);
+    std::string content = "<html><body> " + strWrite + " </body></html>";
     response.AppendBody(content.c_str(), content.size());
 
     response.PutHeaderItem("Content-Type", "text/html");

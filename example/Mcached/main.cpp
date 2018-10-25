@@ -91,7 +91,8 @@ int main(int argc, char **argv) {
     conf.ip = "127.0.0.1";
     conf.port = 13579;
     conf.work_path = httpservice_work_path;
-    conf.etcd_server_list = "";
+    conf.manager_server_list = "http://127.0.0.1:8898";
+    conf.manager_server_path = "/Mcached/GroupRevise/";
 
     McachedHttpService service;
     if (service.Init(conf)) {

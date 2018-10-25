@@ -73,6 +73,7 @@ bool moxie::HttpClientHandler::ParseHttpRequest() {
         request_.SetPath(fl[1]);
         request_.SetVersion(fl[2]);
         // \r\n
+        std::cout << request_.GetCmd() << " " << request_.GetPath() << " " << request_.GetVersion() << std::endl;
         readBuf_.retrieve(2);
         request_.SetState(STATE_HTTPREQUEST_FIRSTLINE);
     }
