@@ -91,6 +91,7 @@ bool moxie::HttpClientHandler::ParseHttpRequest() {
                 ReplyErrorRequest("Bad Request!");
                 return false;
             }
+            
             request_.AddHeaderItem(moxie::utils::StringTrim(fl[i].substr(0, pos)), moxie::utils::StringTrim(fl[i].substr(pos + 1)));
         }
         // \r\n\r\n
@@ -102,12 +103,21 @@ bool moxie::HttpClientHandler::ParseHttpRequest() {
     }
 
     if (request_.GetState() == STATE_HTTPREQUEST_BODY) {
-        if (request_.GetHeaderItem("Content-length") == "") {
+        if (request_.GetHeaderItem("Content-Length") == "") {
             request_.SetState(STATE_HTTPREQUEST_PROCESS);
             return true;
         }
-        if (readBuf_.readableBytes() == static_cast<uint32_t>(std::atol(request_.GetHeaderItem("Content-length").c_str()))) {
+
+        long length = std::atol(request_.GetHeaderItem("Content-Length").c_str());
+        if (length < 0) {
+            // bad request
+            // TODO
+            return true;
+        } 
+
+        if (readBuf_.readableBytes() >= static_cast<uint32_t>(length)) {
             request_.AppendBody(readBuf_.peek(), readBuf_.readableBytes());
+            readBuf_.retrieve(length);
             request_.SetState(STATE_HTTPREQUEST_PROCESS);
             return true;
         }

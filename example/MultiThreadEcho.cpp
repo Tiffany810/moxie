@@ -17,6 +17,11 @@ using namespace moxie;
 
 class EchoClientHandler : public ClientHandler {
 public:
+    EchoClientHandler(const std::shared_ptr<PollerEvent>& client,  const std::shared_ptr<moxie::NetAddress>& cad)
+        : event_(client),
+        peer_(cad) {
+    }
+
     virtual void AfetrRead(const std::shared_ptr<PollerEvent>& event, EventLoop *loop) {
         if (readBuf_.readableBytes() > 0) {
             writeBuf_.append(readBuf_.peek(), readBuf_.readableBytes());
@@ -33,12 +38,16 @@ public:
         event->DisableWrite();
         loop->Modity(event);
     }
+
+private:
+    std::shared_ptr<PollerEvent> event_;
+    std::shared_ptr<moxie::NetAddress> peer_;
 };
 
 class Echo : public ListenHadler {
 public:
     virtual void AfterAcceptSuccess(const std::shared_ptr<PollerEvent>& client, EventLoop *loop, const std::shared_ptr<moxie::NetAddress>& cad) {
-        if (!loop->Register(client, std::make_shared<EchoClientHandler>())) {
+        if (!loop->Register(client, std::make_shared<EchoClientHandler>(client, cad))) {
             ::close(client->GetFd());
             return;
         }

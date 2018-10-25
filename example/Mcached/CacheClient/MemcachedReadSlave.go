@@ -18,7 +18,8 @@ func GetStringInSize(size uint, char string) (string, error) {
 }
 
 type Task struct {
-	client *memcache.Client
+	master *memcache.Client
+	slave *memcache.Client
 	datalen uint
 	keylen uint
 	addr string
@@ -27,7 +28,8 @@ type Task struct {
 
 func main() {
 	routinenum := flag.Int("rn", 4, "Go routine Num!")
-	addr := flag.String("ip", "127.0.0.1:11211", "The address of redis server!")
+	master_ip := flag.String("master", "127.0.0.1:11211", "The address of master memcached server!")
+	slave_ip := flag.String("slave", "127.0.0.1:11211", "The address of slave memcached server!")
 	keylen := flag.Uint("keylen", 30, "The default length of key!")
 	datalen := flag.Uint("datalen", 128, "The default length of data!")
 	reqs := flag.Int("reqs", 10000, "The times of this test!")
@@ -38,23 +40,29 @@ func main() {
 		return
 	}
 
-	fmt.Printf("rn = %d, ip = %s, keylen = %d, datalen = %d, reqs = %d\n", *routinenum, *addr, *keylen, *datalen, *reqs)
+	fmt.Printf("rn = %d, master = %s, slave = %s, keylen = %d, datalen = %d, reqs = %d\n", *routinenum, *master_ip, *slave_ip, *keylen, *datalen, *reqs)
 
 	var total_reqs uint64 = 0
 
 	ctx := make([]Task, 0, *routinenum)
 	for c := 0; c < *routinenum; c++ {
-		memcachedclient := memcache.New(*addr)
-		memcachedclient.Timeout = 5000 * time.Millisecond
-		if memcachedclient == nil {
-			fmt.Println("Build memcachedclient failed!")
+		masterclient := memcache.New(*master_ip)
+		masterclient.Timeout = 5000 * time.Millisecond
+		if masterclient == nil {
+			fmt.Println("Build masterclient failed!")
+			return
+		}
+		slaveclient := memcache.New(*slave_ip)
+		slaveclient.Timeout = 5000 * time.Millisecond
+		if slaveclient == nil {
+			fmt.Println("Build slaveclient failed!")
 			return
 		}
 		ctx = append(ctx, Task{
-			client : memcachedclient,
+			master : masterclient,
+			slave : slaveclient,
 			datalen : *datalen,
 			keylen : *keylen,
-			addr : *addr,
 			reqs : *reqs,
 		})
 		total_reqs += uint64(*reqs)
@@ -72,7 +80,7 @@ func main() {
 			for rq = 0; rq < t.reqs; rq++ {
 				key := strconv.Itoa(id) + keyprefix + strconv.Itoa(rq)
 				value := strconv.Itoa(id) + valueprefix + strconv.Itoa(rq)
-				err := t.client.Set(&memcache.Item{Key: key, Value: []byte(value)})
+				err := t.master.Set(&memcache.Item{Key: key, Value: []byte(value)})
 				if err != nil {
                     fmt.Println("Set Error:", err)
 					break
@@ -93,7 +101,7 @@ func main() {
 			var rq int
 			for rq = 0; rq < t.reqs; rq++ {
 				key := strconv.Itoa(id) + keyprefix + strconv.Itoa(rq)
-				_, err := t.client.Get(key)
+				_, err := t.slave.Get(key)
 				if err != nil {
 					fmt.Println("Get Error:", err, " key:", key)
 					break

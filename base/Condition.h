@@ -2,14 +2,11 @@
 #define MOXIE_CONDITION_H
 #include <pthread.h>
 
-
-#include <boost/noncopyable.hpp>
-
 namespace moxie {
 
 class Mutex;
 
-class Condition : boost::noncopyable {
+class Condition {
 public:
     Condition(Mutex& mutex);
     ~Condition() ;

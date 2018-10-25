@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sys/epoll.h>
 #include <sys/poll.h>
+#include <unistd.h>
 
 #include <Log.h>
 
@@ -16,18 +17,12 @@ const uint32_t kOneShot = EPOLLONESHOT;
 
 class PollerEvent {
 public:
-    PollerEvent() :
-        event_(kNoneEvent),
-        valatile_(kNoneEvent),
-        sock_(-1) {
-    }
-
     PollerEvent(int sock, uint32_t event) :
         event_(event),
         sock_(sock) {
     }
 
-    virtual ~PollerEvent() { LOGGER_TRACE("~PollerEvent"); }
+    virtual ~PollerEvent() { ::close(sock_); }
 
     bool ValatileErrorEvent() {
         return ((kErrorEvent) & valatile_) != 0;

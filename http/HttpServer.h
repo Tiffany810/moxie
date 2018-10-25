@@ -8,6 +8,8 @@
 #include <ListenHadler.h>
 #include <NetAddress.h>
 #include <HttpRequestHandler.h>
+#include <HttpRequest.h>
+#include <HttpResponse.h>
 
 namespace moxie {
 

@@ -14,8 +14,11 @@
 #include <EventLoopThread.h>
 #include <PollerEvent.h>
 #include <McachedServer.h>
+#include <McachedHttpService.h>
 
 using namespace moxie;
+
+const std::string httpservice_work_path = "/mcached/service";
 
 struct WorkContext {
     short port;
@@ -82,6 +85,21 @@ int main(int argc, char **argv) {
             td->PushTask(std::bind(RegisterMcachedWorkerTask, std::placeholders::_1, ctx));
             thds.push_back(td);
         }
+    }
+
+    HttpServiceConf conf;
+    conf.ip = "127.0.0.1";
+    conf.port = 13579;
+    conf.work_path = httpservice_work_path;
+    conf.manager_server_list = "http://127.0.0.1:8898";
+    conf.manager_server_path = "/Mcached/GroupRevise/";
+
+    McachedHttpService service;
+    if (service.Init(conf)) {
+        service.Start();
+    } else {
+        LOGGER_ERROR("Init Httpservice failed!");
+        return -1;
     }
 
     for (size_t i = 0; i < thds.size(); ++i) {
