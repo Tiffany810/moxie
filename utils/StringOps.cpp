@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 #include <StringOps.h>
 
@@ -28,7 +29,7 @@ std::string moxie::utils::StringTrim(const std::string& str) {
         return str;
     }
 
-    size_t start = str.find_first_not_of(" ");
-    size_t end = str.find_last_not_of(" ");
+    size_t start = str.find_first_not_of(' ');
+    size_t end = str.find_last_not_of(' ');
     return str.substr(start, end - start + 1);
 }

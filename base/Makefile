@@ -1,5 +1,5 @@
 libs := -ltcmalloc_minimal -lpthread 
-cflags := -O2 -std=c++11 -static -Wall -DNDEBUG
+cflags := -g -O2 -std=c++11 -static -Wall -DNDEBUG
 CC = g++
 
 moxie_base := ./base

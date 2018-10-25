@@ -10,4 +10,5 @@ moxie:
 clean:
 	make clean -C base 
 	make clean -C utils
+	make clean -C http
 	make clean -C example 

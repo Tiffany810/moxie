@@ -32,6 +32,7 @@ private:
     int PostByCurl(const string& url, string &body,  string* response);
     void ThreadWorker();
     void PostProcess(HttpRequest& request, HttpResponse& response);
+    void GetProcess(HttpRequest& request, HttpResponse& response);
 private:
     HttpServiceConf conf_;
     std::shared_ptr<HttpServer> server_;

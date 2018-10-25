@@ -32,6 +32,9 @@ bool moxie::McachedHttpService::Init(const HttpServiceConf& conf) {
     server_->RegisterMethodCallback("POST", std::bind(&McachedHttpService::PostProcess, this, std::placeholders::_1, std::placeholders::_2));
     server_->RegisterMethodCallback("post", std::bind(&McachedHttpService::PostProcess, this, std::placeholders::_1, std::placeholders::_2));
 
+    server_->RegisterMethodCallback("GET", std::bind(&McachedHttpService::GetProcess, this, std::placeholders::_1, std::placeholders::_2));
+    server_->RegisterMethodCallback("get", std::bind(&McachedHttpService::GetProcess, this, std::placeholders::_1, std::placeholders::_2));
+
 
     thread_ = std::make_shared<Thread>(std::bind(&McachedHttpService::ThreadWorker, this));
     return true;
@@ -44,15 +47,15 @@ bool moxie::McachedHttpService::Start() {
 void moxie::McachedHttpService::PostProcess(HttpRequest& request, HttpResponse& response) {
     Json::Reader reader;  
     Json::Value root;
-    std::cout << "In PostProcess" << std::endl;
     if (request.GetBodyLength() == 0) {
         // error
+        std::cout << "Get Body data failed!" << std::endl;
         return;
     } 
     std::string body = std::string(request.GetBodyData(), request.GetBodyLength());
-    std::cout << "body:" << body << std::endl;
     if (!reader.parse(body, root)) {
         // error
+        std::cout << "The format of body is not json!" << std::endl;
         return;
     }
 
@@ -62,6 +65,18 @@ void moxie::McachedHttpService::PostProcess(HttpRequest& request, HttpResponse& 
     Json::FastWriter writer;  
     std::string strWrite = writer.write(root);
     std::string content = "<html><body> " + strWrite + " </body></html>";
+    response.AppendBody(content.c_str(), content.size());
+
+    response.PutHeaderItem("Content-Type", "text/html");
+    response.PutHeaderItem("Content-Length", std::to_string(content.size()));
+}
+
+void moxie::McachedHttpService::GetProcess(HttpRequest& request, HttpResponse& response) {
+    response.SetScode("200");
+    response.SetStatus("OK");
+    response.SetVersion(request.GetVersion());
+
+    std::string content = "<html><body> " + std::string("In Get Method!") + " </body></html>";
     response.AppendBody(content.c_str(), content.size());
 
     response.PutHeaderItem("Content-Type", "text/html");

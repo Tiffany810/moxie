@@ -1,5 +1,5 @@
 libs := -ljsoncpp -lcurl -lhttp -lutils -lmoxie -lmcached -lprotobuf -ltcmalloc_minimal -lpthread 
-cflags := -O2 -std=c++11 -static -Wall -DNDEBUG
+cflags := -O2 -g -std=c++11 -static -Wall -DNDEBUG
 CC = g++
 
 LDDIR += -L../../lib \
