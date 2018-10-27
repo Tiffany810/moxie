@@ -458,7 +458,7 @@ func (server *ManagerServer) ActivateCachedGroup (group *CacheGroupItem) (bool, 
 		}
 	}
 
-	groupkv := tres.Responses[1].GetResponseRange().Kvs[0]
+	groupkv := tres.Responses[0].GetResponseRange().Kvs[0]
 	if json.Unmarshal(groupkv.Value, &group) != nil {
 		return false, errors.New("Unmarshal group value is error!"), Error_GroupJsonFormatErr
 	}

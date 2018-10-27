@@ -347,7 +347,7 @@ func (keeper *SlotGroupKeeper) GetCacheGroupInfo(start, size uint64) (* CacheGro
 	keeper.SlotsGroupMutex.Lock()
 	defer keeper.SlotsGroupMutex.Unlock()
 
-	start = Max(start, CacheGroupIdStart)
+	start = Max(start, 0)
 	end := Min(start + size, uint64(len(keeper.CacheGroupIdList)))
 
 	infos := &CacheGroupResponseInfo {
@@ -442,7 +442,7 @@ func (ser *CachedGroupListHandler) ServeHTTP(response http.ResponseWriter, reque
 	if (sq.PageIndex < 1) {
 		sq.PageIndex = 1
 	}
-	start_index := sq.PageSize * (sq.PageIndex - 1) + 1
+	start_index := sq.PageSize * (sq.PageIndex - 1)
 
 	groupsinfo, err := ser.Keeper.GetCacheGroupInfo(start_index, sq.PageSize)
 	groupsinfo.Succeed = true

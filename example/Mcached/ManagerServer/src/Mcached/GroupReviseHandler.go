@@ -11,10 +11,10 @@ const (
 	CmdCreateCacheGroup 		= 	0
 	CmdActivateGroup			= 	1
 	CmdDeleteCacheGroup			= 	2
-	CmdAddSlot					= 	3
-	CmdMoveSlot					= 	4
-	CmdDelSlot					= 	5
-	CmdSlotStartMove			= 	6
+	CmdAddSlotToGroup			= 	3
+	CmdMoveSlotDone				= 	4
+	CmdDelSlotFromGroup			= 	5
+	CmdMoveSlotStart			= 	6
 )
 
 const (
@@ -109,13 +109,13 @@ func (handler *GroupReviseHandler) ServeHTTP(response http.ResponseWriter, reque
 		handler.HandleActivateCacheGroup(grr, Httpres)
 	case CmdDeleteCacheGroup:
 		handler.HandleDeleteCacheGroup(grr, Httpres)
-	case CmdAddSlot:
+	case CmdAddSlotToGroup:
 		handler.HandleAddSlot(grr, Httpres)
-	case CmdDelSlot:
+	case CmdDelSlotFromGroup:
 		handler.HandleDelSlot(grr, Httpres)
-	case CmdMoveSlot:
+	case CmdMoveSlotDone:
 		handler.HandleMoveSlot(grr, Httpres)
-	case CmdSlotStartMove:
+	case CmdMoveSlotStart:
 		handler.HandleSlotStartMove(grr, Httpres)
 	default:
 		Httpres.Msg = "Cmd not found!"
