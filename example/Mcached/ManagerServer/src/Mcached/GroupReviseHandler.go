@@ -34,6 +34,7 @@ const (
 	Error_SlotDstIdError		= 13
 	Error_GetMaxGroupIdFailed	= 14
 	Error_CmdNotFound			= 15
+	Error_SlotOrGroupIsZero		= 16
 )
 
 type GroupReviseHandler struct {
@@ -134,10 +135,6 @@ func (handler *GroupReviseHandler) ServeHTTP(response http.ResponseWriter, reque
 func (handler *GroupReviseHandler) HandleActivateCacheGroup(request *GroupReviseRequest, response *GroupReviseResponse) {
 	Item := &CacheGroupItem {
 		GroupId	: request.SourceGroupId,
-		Hosts	: CacheAddr {
-			Master : "",
-			Slaves : make([]string, 0),
-		},
 		SlotsIndex : make([]uint64, 0),
 	}
 
@@ -155,10 +152,6 @@ func (handler *GroupReviseHandler) HandleActivateCacheGroup(request *GroupRevise
 func (handler *GroupReviseHandler) HandleCreateCacheGroup(request *GroupReviseRequest, response *GroupReviseResponse) {
 	Item := &CacheGroupItem {
 		GroupId	: 0,
-		Hosts	: CacheAddr {
-			Master : "",
-			Slaves : make([]string, 0),
-		},
 		SlotsIndex : make([]uint64, 0),
 	}
 

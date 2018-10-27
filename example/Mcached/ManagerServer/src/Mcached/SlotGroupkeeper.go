@@ -17,18 +17,6 @@ const (
 )
 
 const (
-	HtmlPath						= "../index/"
-	IndexFileName					= "../index/index.html"
-)
-
-const (
-	SlotsPrefix						= "/Mcached/Slots/"
-	CachedGroupPrefix				= "/Mcached/CachedGroup/"
-	GroupIdPrefix					= "/Mcached/GroupId/"		
-	ManagerMasterPrefix				= "/Mcached/ManagerMaster/"
-)
-
-const (
 	UpdateSlotsGroupTickerTimeout		= 10 * time.Second
 
 	McachedSlotsStart				= 1
@@ -67,16 +55,21 @@ type SlotsResponseInfo struct {
 }
 
 type CacheGroupRequest struct {
-	Version						int16 `json:"version"`
-	PageIndex 					uint64 `json:"page_index"`
-	PageSize					uint64 `json:"page_size"`
+	Version						int16 		`json:"version"`
+	PageIndex 					uint64 		`json:"page_index"`
+	PageSize					uint64 		`json:"page_size"`
 }
 
 type CacheGroupItem struct {
 	GroupId						uint64	    `json:"group_id"`
 	Activated					bool 		`json:"is_activated"`
-	Hosts						CacheAddr   `json:"cached_hosts"`
 	SlotsIndex					[]uint64	`json:"slots"`
+}
+
+type CacheEndPointsRequest struct {
+	IsMaster					bool		`json:"is_master"`
+	Endpoints					string		`json:"endpoints"`
+	Ext 						string		`json:"ext"`
 }
 
 type CacheGroupResponseInfo struct {
@@ -135,7 +128,6 @@ func NewSlotGroupKeeper(mcontext context.Context, cfg *SGConfig) (*SlotGroupKeep
 		Klogger : cfg.Klogger,
 	}
 	keeper.InitSlotsInfo()
-	keeper.RegisterHttpHandler()
 
 	cv3, err := clientv3.New(clientv3.Config{
 		Endpoints:   cfg.EtcdEndpoints,
@@ -159,42 +151,6 @@ func (keeper *SlotGroupKeeper) Start() {
 			}
 		}
 	}()
-
-	err := keeper.HttpServer.ListenAndServe()
-	if err != nil {
-		if err == http.ErrServerClosed {
-			keeper.Klogger.Println("Server closed under request")
-		} else {
-			keeper.Klogger.Println("Server closed unexpected", err)
-		}
-	}
-	keeper.Klogger.Println("SlotGroupKeeper Server exited!")
-}
-
-func (keeper *SlotGroupKeeper) RegisterHttpHandler() {
-	mux := http.NewServeMux()
-	sh := &SlotsListHandler {
-		Keeper : keeper,
-	}
-	mux.Handle(SlotsPrefix, sh)
-	mux.Handle(SlotsPrefix + "/", sh)
-
-	ch := &CachedGroupListHandler {
-		Keeper : keeper,
-	}
-	mux.Handle(CachedGroupPrefix, ch)
-	mux.Handle(CachedGroupPrefix + "/", ch)
-
-	ih := &IndexHandler {
-		Keeper : keeper,
-	}
-	mux.Handle("/", ih)
-
-	keeper.HttpServer = &http.Server {
-		Addr : keeper.Sgconfig.HttpEndpoints,
-		WriteTimeout : time.Second * 2,
-		Handler : mux,
-	}
 }
 
 func (keeper *SlotGroupKeeper) DoUpdateSlotsCache() {
@@ -289,15 +245,6 @@ func (keeper *SlotGroupKeeper) BuildSlotInfo(slot uint64) SlotInfo {
 	ret := SlotInfo {
 		SlotItem : *(keeper.SlotsInfo[slot]),
 	}
-	cid := keeper.SlotsInfo[slot].Groupid
-	if cid != 0 {
-		ret.Cacheaddr = keeper.CacheGroupInfo[cid].Hosts
-	} else {
-		ret.Cacheaddr = CacheAddr{
-			Master : "",
-			Slaves : make([]string, 0),
-		}
-	}
 	return ret
 }
 
@@ -334,10 +281,7 @@ func (keeper *SlotGroupKeeper) BuildCacheGroupItem(group uint64) CacheGroupItem 
 	}
 	ret := CacheGroupItem {
 		GroupId : group,
-		Hosts : CacheAddr{
-			Master : "",
-			Slaves : make([]string, 0),
-		},
+		Activated : false,
 		SlotsIndex : make([]uint64, 0),
 	}
 	return ret
@@ -487,7 +431,7 @@ func DeleteSlotFromGroup(slot *SlotItem, group *CacheGroupItem) (bool, error, in
 	return true, nil, Error_NoError
 }
 
-func AddSlotToGroup(slot *SlotItem, group *CacheGroupItem) (bool, error,int32) {
+func LocalAddSlotToGroup(slot *SlotItem, group *CacheGroupItem) (bool, error,int32) {
 	if slot.Groupid == group.GroupId {
 		return false, errors.New("The slot belongs to this group"), Error_SlotHasInThisGroup
 	} 

@@ -67,15 +67,16 @@ public:
         CmdAddSlot                  =   0,
         CmdDelSlot                  =   1,
         CmdMoveSlot                 =   2,
-    }
+    };
 
     McachedHttpService();
+    ~McachedHttpService();
     bool Init(const HttpServiceConf& conf);
     bool Start();
 private:
-    int GetByCurl(const std::string& url, std::string* response, struct CurlExt &ext);
+    int GetByCurl(const std::string& url, std::string& response, struct CurlExt &ext);
     int PostByCurl(const std::string& url, std::string &body, 
-                   std::string* response, struct CurlExt &ext);
+                   std::string& response, struct CurlExt &ext);
     void ThreadWorker();
     void PostProcess(HttpRequest& request, HttpResponse& response);
     void GetProcess(HttpRequest& request, HttpResponse& response);

@@ -16,8 +16,19 @@ import (
 )
 
 const (
+	HtmlPath						= "../index/"
+	IndexFileName					= "../index/index.html"
+)
+
+const (
+	SlotsPrefix						= "/Mcached/Slots/"
+	CachedGroupPrefix				= "/Mcached/CachedGroup/"
+	GroupIdPrefix					= "/Mcached/GroupId/"		
+	ManagerMasterPrefix				= "/Mcached/ManagerMaster/"
 	MaxGroupIdKey					= "/Mcached/GroupId/MaxGroupId"		
 	GroupRevisePrefix				= "/Mcached/GroupRevise/"
+	CachedGroupMasterPrefix			= "/Mcached/EndPoints/master/"
+	CachedGroupSlavePrefix			= "/Mcached/EndPoints/slave/"
 )
 
 const (
@@ -62,6 +73,8 @@ type ManagerServer struct {
 	HttpServer					*http.Server
 	HttpRedirect 				uint64
 	RedirectMutex 				sync.Mutex
+
+	keeper						*SlotGroupKeeper
 
 	SlotsGroupidChecked 		bool
 	SgCheckmutex 				sync.Mutex
@@ -121,6 +134,16 @@ func (server *ManagerServer) Init(cfg *McachedConf) bool {
 	server.elecerr = make(chan error, 2)
 	server.elecerrcount = 0
 
+	kcfg := &SGConfig {
+		EtcdEndpoints : server.Mconfig.EtcdAddr,
+		HttpEndpoints : server.Mconfig.KeeperAddr,
+		Klogger       : server.logger,
+	}
+	server.keeper, err = NewSlotGroupKeeper(server.ctx, kcfg)
+	if err != nil {
+		server.logger.Panicln("NewSlotGroupKeeper failed!")
+	}
+
 	server.RegisterHttpHandler() 
 	server.HttpRedirect = 0
 
@@ -128,15 +151,32 @@ func (server *ManagerServer) Init(cfg *McachedConf) bool {
 	return true;
 }
 
-func (ser *ManagerServer) RegisterHttpHandler() {
+func (server *ManagerServer) RegisterHttpHandler() {
 	mux := http.NewServeMux()
 	gr := &GroupReviseHandler {
-		server : ser,
+		server : server,
 	}
 	mux.Handle(GroupRevisePrefix, gr)
 
-	ser.HttpServer = &http.Server {
-		Addr : ser.Mconfig.LocalAddr,
+	sh := &SlotsListHandler {
+		Keeper : server.keeper,
+	}
+	mux.Handle(SlotsPrefix, sh)
+	mux.Handle(SlotsPrefix + "/", sh)
+
+	ch := &CachedGroupListHandler {
+		Keeper : server.keeper,
+	}
+	mux.Handle(CachedGroupPrefix, ch)
+	mux.Handle(CachedGroupPrefix + "/", ch)
+
+	ih := &IndexHandler {
+		Keeper : server.keeper,
+	}
+	mux.Handle("/", ih)
+
+	server.HttpServer = &http.Server {
+		Addr : server.Mconfig.LocalAddr,
 		WriteTimeout : time.Second * 2,
 		Handler : mux,
 	}
@@ -160,31 +200,21 @@ func (server *ManagerServer) Run() {
 		<-server.quit
 		server.cancel()
 	}()
-	
-	kcfg := &SGConfig {
-		EtcdEndpoints : server.Mconfig.EtcdAddr,
-		HttpEndpoints : server.Mconfig.KeeperAddr,
-		Klogger       : server.logger,
-	}
 
-	keeper, err := NewSlotGroupKeeper(server.ctx, kcfg)
-	if err != nil {
-		server.logger.Panicln("NewSlotGroupKeeper failed!")
-	}
 	go func () {
-		keeper.Start()
+		server.keeper.Start()
 	}()
 
 	go func() {
 		err := server.HttpServer.ListenAndServe()
 		if err != nil {
 			if err == http.ErrServerClosed {
-				keeper.Klogger.Println("Server closed under request")
+				server.logger.Println("Server closed under request")
 			} else {
-				keeper.Klogger.Println("Server closed unexpected", err)
+				server.logger.Println("Server closed unexpected", err)
 			}
 		}
-		keeper.Klogger.Println("SlotGroupKeeper Server exited!")
+		server.logger.Println("SlotGroupKeeper Server exited!")
 	}()
 
 	for {
@@ -583,7 +613,7 @@ func (server *ManagerServer) AddSlotToGroup (slotid, groupid uint64) (bool, erro
 	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
 	defer cancel()
 	if (groupid == 0 || slotid == 0) {
-		server.logger.Panicln("Group id or slot id is zero!")
+		return false, errors.New("Group id or slot id is zero!"), Error_SlotOrGroupIsZero
 	}
 
 	slot_key := server.GetSlotsIndexKey(slotid)
@@ -628,7 +658,7 @@ func (server *ManagerServer) AddSlotToGroup (slotid, groupid uint64) (bool, erro
 		return false, errors.New("Group isn't Activated!"), Error_GroupIsNotActivated
 	}
 	
-	if ret, err, ecode := AddSlotToGroup(&slot, &group); err != nil {
+	if ret, err, ecode := LocalAddSlotToGroup(&slot, &group); err != nil {
 		return ret, err, ecode
 	}
 
@@ -664,7 +694,7 @@ func (server *ManagerServer) DeleteSlotfromGroup (slotid, groupid uint64) (bool,
 	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
 	defer cancel()
 	if (groupid == 0 || slotid == 0) {
-		server.logger.Panicln("Group id or slot id is zero!")
+		return false, errors.New("Group id or slot id is zero!"), Error_SlotOrGroupIsZero	
 	}
 
 	slot_key := server.GetSlotsIndexKey(slotid)
@@ -731,7 +761,7 @@ func (server *ManagerServer) MoveSlotToGroup (slotid, srcid, destid uint64) (boo
 	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
 	defer cancel()
 	if (srcid == 0 || destid == 0 || slotid == 0) {
-		server.logger.Panicln("Group id or slot id is zero!")
+		return false, errors.New("Group id or slot id is zero!"), Error_SlotOrGroupIsZero
 	}
 
 	slot_key := server.GetSlotsIndexKey(slotid)
@@ -788,7 +818,7 @@ func (server *ManagerServer) MoveSlotToGroup (slotid, srcid, destid uint64) (boo
 		return ret, err, ecode
 	}
 
-	if ret, err, ecode := AddSlotToGroup(&slot, &destgroup); err != nil {
+	if ret, err, ecode := LocalAddSlotToGroup(&slot, &destgroup); err != nil {
 		return ret, err, ecode
 	}
 
@@ -832,7 +862,7 @@ func (server *ManagerServer) StartMoveSlotToGroup (slotid, srcid, destid uint64)
 	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
 	defer cancel()
 	if (srcid == 0 || destid == 0 || slotid == 0) {
-		server.logger.Panicln("Group id or slot id is zero!")
+		return false, errors.New("Group id or slot id is zero!"), Error_SlotOrGroupIsZero
 	}
 
 	slot_key := server.GetSlotsIndexKey(slotid)

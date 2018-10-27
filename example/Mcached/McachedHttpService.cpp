@@ -5,9 +5,15 @@
 #include <McachedHttpService.h>
 #include <Socket.h>
 #include <StringOps.h>
+#include <ServiceMeta.h>
 
 moxie::McachedHttpService::McachedHttpService()
-    : server_(std::make_shared<HttpServer>()) {
+    : server_(std::make_shared<HttpServer>()),
+    loop_(new EventLoop) {
+}
+
+moxie::McachedHttpService::~McachedHttpService() {
+    delete loop_;
 }
 
 bool moxie::McachedHttpService::Init(const HttpServiceConf& conf) {
@@ -53,12 +59,14 @@ bool moxie::McachedHttpService::Start() {
 }
 
 void moxie::McachedHttpService::PostProcess(HttpRequest& request, HttpResponse& response) {
+    std::cout << "PostProcess" << std::endl;
     ClientRequestArgs args;
     if (!ParseClientRequestArgs(request, args)) {
-        Http4xxResponse("400", "Bad Request", request.GetVersion());
+        std::cout << "PostProcess[0]" << std::endl;
+        Http4xxResponse(response, "400", "Bad Request", request.GetVersion());
         return;
     }
-
+    std::cout << "PostProcess[1]" << std::endl;
     switch (args.cmd_type) {
         case CmdFromClient::CmdAddSlot:
             ProcessCmdAddSlot(args, request, response);
@@ -70,9 +78,11 @@ void moxie::McachedHttpService::PostProcess(HttpRequest& request, HttpResponse& 
             ProcessCmdMoveSlot(args, request, response);
             break;
         default:
-            Http4xxResponse("400", "Cmd Not Found", request.GetVersion());
+            std::cout << "PostProcess[2]" << std::endl;
+            Http4xxResponse(response, "400", "Cmd Not Found", request.GetVersion());
             return;
     }
+    std::cout << "PostProcess[3]" << std::endl;
     return;
 }
 
@@ -82,6 +92,7 @@ bool moxie::McachedHttpService::ParseClientRequestArgs(HttpRequest& request, Cli
     if (request.GetBodyLength() == 0) {
         return false;
     } 
+
     std::string body = std::string(request.GetBodyData(), request.GetBodyLength());
     if (!reader.parse(body, root)) {
         return false;
@@ -102,18 +113,18 @@ bool moxie::McachedHttpService::ParseClientRequestArgs(HttpRequest& request, Cli
     args.cmd_type = root["cmd_type"].asInt();
     args.slot_id = root["slot_id"].asInt();
     args.group_id = root["group_id"].asInt();
-
     return true;
 }
 
 void moxie::McachedHttpService::ProcessCmdAddSlot(const ClientRequestArgs& args, HttpRequest& request, HttpResponse& response) {
+    std::cout << "ProcessCmdAddSlot" << std::endl;
     assert(args.cmd_type == CmdFromClient::CmdAddSlot);
     if (args.slot_id < SlotRange::McachedSlotsStart || args.slot_id >= SlotRange::McachedSlotsEnd) {
         Http4xxResponse(response, "400", "Bad Request!", request.GetVersion());
         return;
     }
     Json::Value root;
-    Json::FastWriter writer;;
+    Json::FastWriter writer;
     root["cmd_type"] = CmdReverseType::CmdAddSlotToGroup;
     root["source_id"] = ServiceMeta::Instance()->CacheId();
     root["dest_id"] = 0;
@@ -122,6 +133,7 @@ void moxie::McachedHttpService::ProcessCmdAddSlot(const ClientRequestArgs& args,
     std::string body = writer.write(root);
     std::string post_res = "";
     struct CurlExt ext;
+
     if (PostByCurl(this->cur_manager_url_, body, post_res, ext) != CURLE_OK) {
         for (size_t index = 0; index < this->manager_url_list_.size(); ++index) {
             if (this->manager_url_list_[index] == this->cur_manager_url_) {
@@ -183,7 +195,7 @@ void moxie::McachedHttpService::ProcessCmdDelSlot(const ClientRequestArgs& args,
         }
     }
 
-    if (300 <= ext.status_code < 400) {
+    if (300 <= ext.status_code && ext.status_code < 400) {
         this->cur_manager_url_ = ext.redirect_url;
         PostByCurl(this->cur_manager_url_, body, post_res, ext);
     }
@@ -194,6 +206,7 @@ void moxie::McachedHttpService::ProcessCmdDelSlot(const ClientRequestArgs& args,
     } else {
         response.SetStatus("Error");
     }
+
     response.SetScode(std::to_string(ext.status_code));
     response.SetVersion(request.GetVersion());
 
@@ -241,7 +254,7 @@ int write_data(char* buffer, size_t size, size_t nmemb, void* userp) {
 }
 
 int moxie::McachedHttpService::GetByCurl(const std::string& url, 
-                                        std::string* response,
+                                        std::string& response,
                                         struct CurlExt& ext) {
     CURL *curl = curl_easy_init();
     if (!curl) {
@@ -250,14 +263,16 @@ int moxie::McachedHttpService::GetByCurl(const std::string& url,
 
     curl_easy_setopt(curl, CURLOPT_URL, (char *)url.c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)response);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&response);
     CURLcode ret = curl_easy_perform(curl);
 
     if (ret == CURLE_OK) {
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &ext.status_code);
         char *rurl = nullptr;
         curl_easy_getinfo(curl, CURLINFO_REDIRECT_URL, &rurl);
-        ext.redirect_url = rurl;
+        if (rurl) {
+            ext.redirect_url = rurl;
+        }
     }
 
     curl_easy_cleanup(curl); 
@@ -266,7 +281,7 @@ int moxie::McachedHttpService::GetByCurl(const std::string& url,
 
 int moxie::McachedHttpService::PostByCurl(const std::string& url, 
                                           std::string &body, 
-                                          std::string* response, 
+                                          std::string &response, 
                                           struct CurlExt& ext) {
     CURL *curl = curl_easy_init();
     if (!curl) {
@@ -277,14 +292,16 @@ int moxie::McachedHttpService::PostByCurl(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, body.size());
     curl_easy_setopt(curl, CURLOPT_URL, (char *)url.c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)response);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&response);
     CURLcode ret = curl_easy_perform(curl);
     
     if (ret == CURLE_OK) {
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &ext.status_code);
         char *rurl = nullptr;
         curl_easy_getinfo(curl, CURLINFO_REDIRECT_URL, &rurl);
-        ext.redirect_url = rurl;
+        if (rurl) {
+            ext.redirect_url = rurl;
+        }
     }
 
     curl_easy_cleanup(curl);
@@ -292,8 +309,7 @@ int moxie::McachedHttpService::PostByCurl(const std::string& url,
 }
 
 void moxie::McachedHttpService::ThreadWorker() {
-    loop_ = new EventLoop();
-
+    assert(loop_);
     if (!loop_->Register(this->event_, this->server_)) {
         LOGGER_ERROR("Loop Register Error");
         delete loop_;
@@ -301,5 +317,4 @@ void moxie::McachedHttpService::ThreadWorker() {
     }
 
     loop_->Loop();
-    delete loop_;
 }
