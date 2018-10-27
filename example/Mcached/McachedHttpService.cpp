@@ -4,6 +4,7 @@
 
 #include <McachedHttpService.h>
 #include <Socket.h>
+#include <StringOps.h>
 
 moxie::McachedHttpService::McachedHttpService()
     : server_(std::make_shared<HttpServer>()) {
@@ -17,6 +18,8 @@ bool moxie::McachedHttpService::Init(const HttpServiceConf& conf) {
         return false;
     }
 
+    curl_global_init(CURL_GLOBAL_ALL);
+
     Socket::SetExecClose(server);
     Socket::SetNoBlocking(server);
     Socket::SetReusePort(server);
@@ -28,13 +31,18 @@ bool moxie::McachedHttpService::Init(const HttpServiceConf& conf) {
         return false;
     }
 
+    this->manager_url_list_ = moxie::utils::StringSplit(conf_.manager_server_list, ";");
+    if (this->manager_url_list_.size() == 0) {
+        return false;
+    }
+    this->cur_manager_url_ = this->manager_url_list_[0];
+
     event_ = std::make_shared<PollerEvent>(server, moxie::kReadEvent);
     server_->RegisterMethodCallback("POST", std::bind(&McachedHttpService::PostProcess, this, std::placeholders::_1, std::placeholders::_2));
     server_->RegisterMethodCallback("post", std::bind(&McachedHttpService::PostProcess, this, std::placeholders::_1, std::placeholders::_2));
 
     server_->RegisterMethodCallback("GET", std::bind(&McachedHttpService::GetProcess, this, std::placeholders::_1, std::placeholders::_2));
     server_->RegisterMethodCallback("get", std::bind(&McachedHttpService::GetProcess, this, std::placeholders::_1, std::placeholders::_2));
-
 
     thread_ = std::make_shared<Thread>(std::bind(&McachedHttpService::ThreadWorker, this));
     return true;
@@ -45,37 +53,163 @@ bool moxie::McachedHttpService::Start() {
 }
 
 void moxie::McachedHttpService::PostProcess(HttpRequest& request, HttpResponse& response) {
+    ClientRequestArgs args;
+    if (!ParseClientRequestArgs(request, args)) {
+        Http4xxResponse("400", "Bad Request", request.GetVersion());
+        return;
+    }
+
+    switch (args.cmd_type) {
+        case CmdFromClient::CmdAddSlot:
+            ProcessCmdAddSlot(args, request, response);
+            break;
+        case CmdFromClient::CmdDelSlot:
+            ProcessCmdDelSlot(args, request, response);
+            break;
+        case CmdFromClient::CmdMoveSlot:
+            ProcessCmdMoveSlot(args, request, response);
+            break;
+        default:
+            Http4xxResponse("400", "Cmd Not Found", request.GetVersion());
+            return;
+    }
+    return;
+}
+
+bool moxie::McachedHttpService::ParseClientRequestArgs(HttpRequest& request, ClientRequestArgs& args) {
     Json::Reader reader;  
     Json::Value root;
     if (request.GetBodyLength() == 0) {
-        // error
-        std::cout << "Get Body data failed!" << std::endl;
-        Http4xxResponse("400", "Bad Request", request.GetVersion());
-        return;
+        return false;
     } 
     std::string body = std::string(request.GetBodyData(), request.GetBodyLength());
     if (!reader.parse(body, root)) {
-        // error
-        std::cout << "The format of body is not json!" << std::endl;
-        Http4xxResponse("400", "Bad Request", request.GetVersion());
-        return;
+        return false;
     }
 
     if (!(root.isMember("cmd_type") && root["cmd_type"].isInt())) {
-        std::cout << "Cmd type can not be parse." << std::endl;
-        Http4xxResponse("400", "Bad Request", request.GetVersion());
-        return;
+        return false;
     }
 
-    //int cmd_type = root["cmd_type"].asInt();
+    if (!(root.isMember("slot_id") && root["slot_id"].isInt())) {
+        return false;
+    }
 
-    Http4xxResponse("200", "OK", request.GetVersion());
-    Json::FastWriter writer;  
-    std::string strWrite = writer.write(root);
-    std::string content = "<html><body> " + strWrite + " </body></html>";
+    if (!(root.isMember("group_id") && root["group_id"].isInt())) {
+        return false;
+    }
+
+    args.cmd_type = root["cmd_type"].asInt();
+    args.slot_id = root["slot_id"].asInt();
+    args.group_id = root["group_id"].asInt();
+
+    return true;
+}
+
+void moxie::McachedHttpService::ProcessCmdAddSlot(const ClientRequestArgs& args, HttpRequest& request, HttpResponse& response) {
+    assert(args.cmd_type == CmdFromClient::CmdAddSlot);
+    if (args.slot_id < SlotRange::McachedSlotsStart || args.slot_id >= SlotRange::McachedSlotsEnd) {
+        Http4xxResponse(response, "400", "Bad Request!", request.GetVersion());
+        return;
+    }
+    Json::Value root;
+    Json::FastWriter writer;;
+    root["cmd_type"] = CmdReverseType::CmdAddSlotToGroup;
+    root["source_id"] = ServiceMeta::Instance()->CacheId();
+    root["dest_id"] = 0;
+    root["slot_id"] = args.slot_id;
+
+    std::string body = writer.write(root);
+    std::string post_res = "";
+    struct CurlExt ext;
+    if (PostByCurl(this->cur_manager_url_, body, post_res, ext) != CURLE_OK) {
+        for (size_t index = 0; index < this->manager_url_list_.size(); ++index) {
+            if (this->manager_url_list_[index] == this->cur_manager_url_) {
+                continue;
+            }
+            if (PostByCurl(this->manager_url_list_[index], body, post_res, ext) == CURLE_OK) {
+                this->cur_manager_url_ = this->manager_url_list_[index];
+                break;
+            }
+        }
+    }
+
+    if (300 <= ext.status_code < 400) {
+        this->cur_manager_url_ = ext.redirect_url;
+        PostByCurl(this->cur_manager_url_, body, post_res, ext);
+    }
+
+    if (ext.status_code == 200) {
+        response.SetStatus("OK");
+        // TODO:sxfworks
+    } else {
+        response.SetStatus("Error");
+    }
+    response.SetScode(std::to_string(ext.status_code));
+    response.SetVersion(request.GetVersion());
+
+    std::string content = post_res;
     response.AppendBody(content.c_str(), content.size());
-    response.PutHeaderItem("Content-Type", "text/html");
+
+    response.PutHeaderItem("Content-Type", "text/json");
     response.PutHeaderItem("Content-Length", std::to_string(content.size()));
+}
+
+void moxie::McachedHttpService::ProcessCmdDelSlot(const ClientRequestArgs& args, HttpRequest& request, HttpResponse& response) {
+    assert(args.cmd_type == CmdFromClient::CmdDelSlot);
+    if (args.slot_id < SlotRange::McachedSlotsStart || args.slot_id >= SlotRange::McachedSlotsEnd) {
+        Http4xxResponse(response, "400", "Bad Request!", request.GetVersion());
+        return;
+    }
+    Json::Value root;
+    Json::FastWriter writer;
+    root["cmd_type"] = CmdReverseType::CmdDelSlotFromGroup;
+    root["source_id"] = ServiceMeta::Instance()->CacheId();
+    root["dest_id"] = 0;
+    root["slot_id"] = args.slot_id;
+
+    std::string body = writer.write(root);
+    std::string post_res = "";
+    struct CurlExt ext;
+    if (PostByCurl(this->cur_manager_url_, body, post_res, ext) != CURLE_OK) {
+        for (size_t index = 0; index < this->manager_url_list_.size(); ++index) {
+            if (this->manager_url_list_[index] == this->cur_manager_url_) {
+                continue;
+            }
+            if (PostByCurl(this->manager_url_list_[index], body, post_res, ext) == CURLE_OK) {
+                this->cur_manager_url_ = this->manager_url_list_[index];
+                break;
+            }
+        }
+    }
+
+    if (300 <= ext.status_code < 400) {
+        this->cur_manager_url_ = ext.redirect_url;
+        PostByCurl(this->cur_manager_url_, body, post_res, ext);
+    }
+
+    if (ext.status_code == 200) {
+        response.SetStatus("OK");
+        // TODO:sxfworks
+    } else {
+        response.SetStatus("Error");
+    }
+    response.SetScode(std::to_string(ext.status_code));
+    response.SetVersion(request.GetVersion());
+
+    std::string content = post_res;
+    response.AppendBody(content.c_str(), content.size());
+
+    response.PutHeaderItem("Content-Type", "text/json");
+    response.PutHeaderItem("Content-Length", std::to_string(content.size()));
+}
+
+void moxie::McachedHttpService::ProcessCmdMoveSlot(const ClientRequestArgs& args, HttpRequest& request, HttpResponse& response) {
+    assert(args.cmd_type == CmdFromClient::CmdMoveSlot);
+    if (args.slot_id < SlotRange::McachedSlotsStart || args.slot_id >= SlotRange::McachedSlotsEnd) {
+        Http4xxResponse(response, "400", "Bad Request!", request.GetVersion());
+        return;
+    }
 }
 
 void moxie::McachedHttpService::GetProcess(HttpRequest& request, HttpResponse& response) {
@@ -106,71 +240,55 @@ int write_data(char* buffer, size_t size, size_t nmemb, void* userp) {
     return nmemb;
 }
 
-int moxie::McachedHttpService::GetByCurl(const string& url, string* response) {
-    CURL *curl;
-    CURLcode ret;
-    struct curl_slist *headers = NULL;
-    headers = curl_slist_append(headers, "Accept: Agent-007");
-    curl = curl_easy_init();
-    // 初始化
-    if (curl) {
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        //改协议头
-        curl_easy_setopt(curl, CURLOPT_URL, (char *)url.c_str());
-        // 指定url
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)response);
-        int status_code = curl_easy_perform(curl);
-        // 执行
-        ret = curl_easy_perform(curl);
-        //执行请求
-        if(ret == 0) {
-            curl_slist_free_all(headers);
-            curl_easy_cleanup(curl); 
-            return status_code;
-        } else {
-            return ret;
-        } 
-    } else {
-        return -1; 
+int moxie::McachedHttpService::GetByCurl(const std::string& url, 
+                                        std::string* response,
+                                        struct CurlExt& ext) {
+    CURL *curl = curl_easy_init();
+    if (!curl) {
+        return -1;
+    } 
+
+    curl_easy_setopt(curl, CURLOPT_URL, (char *)url.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)response);
+    CURLcode ret = curl_easy_perform(curl);
+
+    if (ret == CURLE_OK) {
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &ext.status_code);
+        char *rurl = nullptr;
+        curl_easy_getinfo(curl, CURLINFO_REDIRECT_URL, &rurl);
+        ext.redirect_url = rurl;
     }
+
+    curl_easy_cleanup(curl); 
+    return ret; 
 }
 
-int moxie::McachedHttpService::PostByCurl(const string& url, string &body,  string* response) {
-    CURL *curl;
-    CURLcode ret;
-    curl = curl_easy_init();
-    long response_code = 0;
-    if (curl) {
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
-        //指定post内容
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, body.size());
-        //指定post长度
-        curl_easy_setopt(curl, CURLOPT_HEADER, 0);
-        //设置协议头
-        // curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-        curl_easy_setopt(curl, CURLOPT_URL, (char *)url.c_str());
-        //指定url
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
-        //绑定相应
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)response);
-        //绑定响应内容的地址
-        ret = curl_easy_perform(curl);
-        //执行请求
-        if(ret == 0) {
-            curl_easy_cleanup(curl);
-            curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
-            //获取http 状态码 
-            return 0;
-        } else {
-            curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
-            //获取http 状态码
-            return ret; 
-        } 
-    } else {
+int moxie::McachedHttpService::PostByCurl(const std::string& url, 
+                                          std::string &body, 
+                                          std::string* response, 
+                                          struct CurlExt& ext) {
+    CURL *curl = curl_easy_init();
+    if (!curl) {
         return -1;
     }
+
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, body.size());
+    curl_easy_setopt(curl, CURLOPT_URL, (char *)url.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)response);
+    CURLcode ret = curl_easy_perform(curl);
+    
+    if (ret == CURLE_OK) {
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &ext.status_code);
+        char *rurl = nullptr;
+        curl_easy_getinfo(curl, CURLINFO_REDIRECT_URL, &rurl);
+        ext.redirect_url = rurl;
+    }
+
+    curl_easy_cleanup(curl);
+    return ret;
 }
 
 void moxie::McachedHttpService::ThreadWorker() {
