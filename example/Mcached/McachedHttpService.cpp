@@ -50,23 +50,30 @@ void moxie::McachedHttpService::PostProcess(HttpRequest& request, HttpResponse& 
     if (request.GetBodyLength() == 0) {
         // error
         std::cout << "Get Body data failed!" << std::endl;
+        Http4xxResponse("400", "Bad Request", request.GetVersion());
         return;
     } 
     std::string body = std::string(request.GetBodyData(), request.GetBodyLength());
     if (!reader.parse(body, root)) {
         // error
         std::cout << "The format of body is not json!" << std::endl;
+        Http4xxResponse("400", "Bad Request", request.GetVersion());
         return;
     }
 
-    response.SetScode("200");
-    response.SetStatus("OK");
-    response.SetVersion(request.GetVersion());
+    if (!(root.isMember("cmd_type") && root["cmd_type"].isInt())) {
+        std::cout << "Cmd type can not be parse." << std::endl;
+        Http4xxResponse("400", "Bad Request", request.GetVersion());
+        return;
+    }
+
+    //int cmd_type = root["cmd_type"].asInt();
+
+    Http4xxResponse("200", "OK", request.GetVersion());
     Json::FastWriter writer;  
     std::string strWrite = writer.write(root);
     std::string content = "<html><body> " + strWrite + " </body></html>";
     response.AppendBody(content.c_str(), content.size());
-
     response.PutHeaderItem("Content-Type", "text/html");
     response.PutHeaderItem("Content-Length", std::to_string(content.size()));
 }
@@ -81,6 +88,15 @@ void moxie::McachedHttpService::GetProcess(HttpRequest& request, HttpResponse& r
 
     response.PutHeaderItem("Content-Type", "text/html");
     response.PutHeaderItem("Content-Length", std::to_string(content.size()));
+}
+
+void moxie::McachedHttpService::Http4xxResponse(HttpResponse& response,
+                                                const std::string& code,
+                                                const std::string& status,
+                                                const std::string& version) {
+    response.SetScode(code);
+    response.SetStatus(status);
+    response.SetVersion(version);
 }
 
 //回调函数 得到响应内容

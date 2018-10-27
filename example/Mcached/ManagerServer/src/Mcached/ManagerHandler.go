@@ -436,23 +436,79 @@ func (server *ManagerServer) GetCacheGroupIdKey(id uint64) string {
 	return key_prefix
 }
 
-func (server *ManagerServer) CreateCachedGroup (group *CacheGroupItem) (bool, error) {
+func (server *ManagerServer) ActivateCachedGroup (group *CacheGroupItem) (bool, error, int32) {
+	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
+	defer cancel()
+
+	key_prefix := server.GetCacheGroupIdKey(group.GroupId)
+	server.logger.Println("New groupid key:", key_prefix)
+
+	txn := server.EtcdClientv3.Txn(ctx)
+	txn.If(clientv3.Compare(clientv3.CreateRevision(key_prefix), ">", 0))
+	txn.Then(clientv3.OpGet(key_prefix))
+	tres, err := txn.Commit()
+	if !tres.Succeeded {
+		return false, errors.New("Get group failed!"), Error_TxnCommitFailed
+	}
+
+	for i := 0; i < len(tres.Responses); i++ {
+		for j := 0; j < len(tres.Responses[i].GetResponseRange().Kvs); j++ {
+			item := tres.Responses[i].GetResponseRange().Kvs[j]
+			fmt.Printf("key[%d][%d]:%s->%s\n", i, j, item.Key, item.Value)
+		}
+	}
+
+	groupkv := tres.Responses[1].GetResponseRange().Kvs[0]
+	if json.Unmarshal(groupkv.Value, &group) != nil {
+		return false, errors.New("Unmarshal group value is error!"), Error_GroupJsonFormatErr
+	}
+
+	if (group.Activated) {
+		return false, errors.New("Group isn't Activated!"), Error_GroupIsActivated
+	}
+
+	group.Activated = true
+
+	group_byte, err := json.Marshal(&group)
+	if err != nil {
+		server.logger.Panicln("Marshal Group slotid!")
+	}
+
+	ctxn := server.EtcdClientv3.Txn(ctx)
+	ctxn.If(clientv3.Compare(clientv3.ModRevision(key_prefix), "=", groupkv.ModRevision))
+	ctxn.Then(clientv3.OpPut(key_prefix, string(group_byte)))
+	ctres, err := ctxn.Commit()
+	if err != nil {
+		server.logger.Println("ActivateCachedGroup Commit error:", err)
+		return false, err, Error_TxnCommitFailed
+	}
+
+	if !ctres.Succeeded {
+		server.logger.Println("ActivateCachedGroup Commit Unsucceed:", err)
+		return false, errors.New("ActivateCachedGroup Commit Unsucceed"), Error_TxnCommitFailed
+	}
+
+	return true, nil, Error_NoError
+}
+
+func (server *ManagerServer) CreateCachedGroup (group *CacheGroupItem) (bool, error, int32) {
 	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
 	defer cancel()
 
 	oldid, err := server.GetMaxGroupId()
 	if err != nil {
-		return false, err
+		return false, err, Error_GetMaxGroupIdFailed
 	}
 	newid := oldid + 1
 
 	key_prefix := server.GetCacheGroupIdKey(newid)
 	server.logger.Println("New groupid key:", key_prefix)
 	group.GroupId = newid
+	group.Activated = false;
 	group_byte, err := json.Marshal(group)
 	if err != nil {
 		server.logger.Println("Json Marshal group item error:", err)
-		return false, err
+		return false, err, Error_GroupJsonFormatErr
 	}
 
 	OldIdPlusValue := fmt.Sprintf("%d", oldid)
@@ -466,7 +522,7 @@ func (server *ManagerServer) CreateCachedGroup (group *CacheGroupItem) (bool, er
 	tres, err := txn.Commit()
 	if err != nil {
 		server.logger.Println("Create group item unsucceed!")
-		return false, err
+		return false, err, Error_TxnCommitFailed
 	}
 
 	if !tres.Succeeded {
@@ -474,10 +530,10 @@ func (server *ManagerServer) CreateCachedGroup (group *CacheGroupItem) (bool, er
 		server.logger.Println(tres.Header)
 	}
 
-	return tres.Succeeded, nil
+	return tres.Succeeded, nil, Error_NoError
 }
 
-func (server *ManagerServer) DeleteCachedGroup (id uint64) (bool, error) {
+func (server *ManagerServer) DeleteCachedGroup (id uint64) (bool, error, int32) {
 	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
 	defer cancel()
 	if (id == 0) {
@@ -491,19 +547,20 @@ func (server *ManagerServer) DeleteCachedGroup (id uint64) (bool, error) {
 	judge_empty.Then(clientv3.OpGet(key_prefix))
 	jres, err := judge_empty.Commit()
 	if err != nil {
-		return false, err
+		return false, err, Error_TxnCommitFailed
 	}
 
 	if !jres.Succeeded {
-		return false, errors.New("Judge group empty failed!")
+		return false, errors.New("Judge group empty failed!"), Error_TxnCommitFailed
 	}
+
 	var cache CacheGroupItem
 	if err := json.Unmarshal(jres.Responses[0].GetResponseRange().Kvs[0].Value, &cache); err != nil {
-		return false, err
+		return false, err, Error_GroupJsonFormatErr
 	}
 
 	if len(cache.SlotsIndex) > 0 {
-		return false, errors.New("Group isn't empty!")
+		return false, errors.New("Group isn't empty!"), Error_GroupNotEmpty
 	}
 
 	txn := server.EtcdClientv3.Txn(ctx)
@@ -512,17 +569,17 @@ func (server *ManagerServer) DeleteCachedGroup (id uint64) (bool, error) {
 	tres, err := txn.Commit()
 	if err != nil {
 		server.logger.Println("Create group item unsucceed!")
-		return false, err
+		return false, err, Error_TxnCommitFailed
 	}
 
 	if !tres.Succeeded {
-		return false, errors.New("Transaction execute failed!")
+		return false, errors.New("Transaction execute failed!"), Error_TxnCommitFailed
 	}
 
-	return true, nil
+	return true, nil, Error_NoError
 }
 
-func (server *ManagerServer) AddSlotToGroup (slotid, groupid uint64) (bool, error) {
+func (server *ManagerServer) AddSlotToGroup (slotid, groupid uint64) (bool, error, int32) {
 	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
 	defer cancel()
 	if (groupid == 0 || slotid == 0) {
@@ -537,7 +594,7 @@ func (server *ManagerServer) AddSlotToGroup (slotid, groupid uint64) (bool, erro
 	txn.Then(clientv3.OpGet(slot_key), clientv3.OpGet(group_key))
 	tres, err := txn.Commit()
 	if !tres.Succeeded {
-		return false, errors.New("Get group failed!")
+		return false, errors.New("Get group failed!"), Error_TxnCommitFailed
 	}
 
 	for i := 0; i < len(tres.Responses); i++ {
@@ -550,25 +607,29 @@ func (server *ManagerServer) AddSlotToGroup (slotid, groupid uint64) (bool, erro
 	slotkv := tres.Responses[0].GetResponseRange().Kvs[0]
 	var slot SlotItem
 	if json.Unmarshal(slotkv.Value, &slot) != nil {
-		return false, errors.New("Unmarshal slot value is error!")
+		return false, errors.New("Unmarshal slot value is error!"), Error_SlotJsonFormatErr
 	}
 
 	if slot.IsAdjust {
-		return false, errors.New("Slot is moving!")
+		return false, errors.New("Slot is moving!"), Error_SlotInAdjusting
 	}
 
 	if slot.Groupid != 0 {
-		return false, errors.New("Slot has own group!")
+		return false, errors.New("Slot has own group!"), Error_SlotHasOwnGroup
 	}
 
 	groupkv := tres.Responses[1].GetResponseRange().Kvs[0]
 	var group CacheGroupItem
 	if json.Unmarshal(groupkv.Value, &group) != nil {
-		return false, errors.New("Unmarshal group value is error!")
+		return false, errors.New("Unmarshal group value is error!"), Error_GroupJsonFormatErr
+	}
+
+	if (!group.Activated) {
+		return false, errors.New("Group isn't Activated!"), Error_GroupIsNotActivated
 	}
 	
-	if ret, err := AddSlotToGroup(&slot, &group); err != nil {
-		return ret, err
+	if ret, err, ecode := AddSlotToGroup(&slot, &group); err != nil {
+		return ret, err, ecode
 	}
 
 	group_byte , err := json.Marshal(&group)
@@ -588,19 +649,18 @@ func (server *ManagerServer) AddSlotToGroup (slotid, groupid uint64) (bool, erro
 	ctres, err := ctxn.Commit()
 	if err != nil {
 		server.logger.Println("AddSlotToGroup Commit error:", err)
-		return false, err
+		return false, err, Error_TxnCommitFailed
 	}
 
 	if !ctres.Succeeded {
 		server.logger.Println("AddSlotToGroup Commit Unsucceed:", err)
-		return false, errors.New("AddSlotToGroup Commit Unsucceed")
+		return false, errors.New("AddSlotToGroup Commit Unsucceed"), Error_TxnCommitFailed
 	}
 
-	return true, nil
+	return true, nil, Error_NoError
 }
 
-
-func (server *ManagerServer) DeleteSlotfromGroup (slotid, groupid uint64) (bool, error) {
+func (server *ManagerServer) DeleteSlotfromGroup (slotid, groupid uint64) (bool, error, int32) {
 	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
 	defer cancel()
 	if (groupid == 0 || slotid == 0) {
@@ -615,27 +675,27 @@ func (server *ManagerServer) DeleteSlotfromGroup (slotid, groupid uint64) (bool,
 	txn.Then(clientv3.OpGet(slot_key), clientv3.OpGet(group_key))
 	tres, err := txn.Commit()
 	if !tres.Succeeded {
-		return false, errors.New("Get group failed!")
+		return false, errors.New("Get group failed!"), Error_TxnCommitFailed
 	}
 
 	slotkv := tres.Responses[0].GetResponseRange().Kvs[0]
 	var slot SlotItem
 	if json.Unmarshal(slotkv.Value, &slot) != nil {
-		return false, errors.New("Unmarshal slot value is error!")
+		return false, errors.New("Unmarshal slot value is error!"), Error_SlotJsonFormatErr
 	}
 
 	if slot.IsAdjust {
-		return false, errors.New("Slot is moving!")
+		return false, errors.New("Slot is moving!"), Error_SlotNotInAdjusting
 	}
 
 	groupkv := tres.Responses[1].GetResponseRange().Kvs[0]
 	var group CacheGroupItem
 	if json.Unmarshal(groupkv.Value, &group) != nil {
-		return false, errors.New("Unmarshal group value is error!")
+		return false, errors.New("Unmarshal group value is error!"), Error_GroupJsonFormatErr
 	}
 
-	if ret, err := DeleteSlotFromGroup(&slot, &group); err != nil {
-		return ret, err
+	if ret, err , ecode:= DeleteSlotFromGroup(&slot, &group); err != nil {
+		return ret, err, ecode
 	}
 
 	group_byte , err := json.Marshal(&group)
@@ -656,18 +716,18 @@ func (server *ManagerServer) DeleteSlotfromGroup (slotid, groupid uint64) (bool,
 	ctres, err := ctxn.Commit()
 	if err != nil {
 		server.logger.Println("AddSlotToGroup Commit error:", err)
-		return false, err
+		return false, err, Error_TxnCommitFailed
 	}
 
 	if !ctres.Succeeded {
 		server.logger.Println("AddSlotToGroup Commit Unsucceed:", err)
-		return false, errors.New("AddSlotToGroup Commit Unsucceed")
+		return false, errors.New("AddSlotToGroup Commit Unsucceed"), Error_TxnCommitFailed
 	}
 
-	return true, nil
+	return true, nil, Error_NoError
 }
 
-func (server *ManagerServer) MoveSlotToGroup (slotid, srcid, destid uint64) (bool, error) {
+func (server *ManagerServer) MoveSlotToGroup (slotid, srcid, destid uint64) (bool, error, int32) {
 	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
 	defer cancel()
 	if (srcid == 0 || destid == 0 || slotid == 0) {
@@ -684,7 +744,7 @@ func (server *ManagerServer) MoveSlotToGroup (slotid, srcid, destid uint64) (boo
 	txn.Then(clientv3.OpGet(slot_key), clientv3.OpGet(src_group_key), clientv3.OpGet(dest_group_key))
 	tres, err := txn.Commit()
 	if !tres.Succeeded {
-		return false, errors.New("Get slot and groups failed!")
+		return false, errors.New("Get slot and groups failed!"), Error_TxnCommitFailed
 	}
 
 	for i := 0; i < len(tres.Responses); i++ {
@@ -697,39 +757,39 @@ func (server *ManagerServer) MoveSlotToGroup (slotid, srcid, destid uint64) (boo
 	slotkv := tres.Responses[0].GetResponseRange().Kvs[0]
 	var slot SlotItem
 	if json.Unmarshal(slotkv.Value, &slot) != nil {
-		return false, errors.New("Unmarshal slot value is error!")
+		return false, errors.New("Unmarshal slot value is error!"), Error_SlotJsonFormatErr
 	}
 
 	if !slot.IsAdjust {
-		return false, errors.New("Slot is not moving!")
+		return false, errors.New("Slot is not moving!"), Error_SlotNotInAdjusting
 	}
 
 	groupkv := tres.Responses[1].GetResponseRange().Kvs[0]
 	var group CacheGroupItem
 	if json.Unmarshal(groupkv.Value, &group) != nil {
-		return false, errors.New("Unmarshal group value is error!")
+		return false, errors.New("Unmarshal src group value is error!"), Error_GroupJsonFormatErr
 	}
 
 	destgroupkv := tres.Responses[2].GetResponseRange().Kvs[0]
 	var destgroup CacheGroupItem
 	if json.Unmarshal(destgroupkv.Value, &destgroup) != nil {
-		return false, errors.New("Unmarshal group value is error!")
+		return false, errors.New("Unmarshal dest group value is error!"), Error_GroupJsonFormatErr
 	}
 
 	if slot.Groupid != group.GroupId {
-		return false, errors.New("The slot source groupid is incorrect!")
+		return false, errors.New("The slot source groupid is incorrect!"), Error_SlotSourceIdError
 	}
 
 	if slot.DstGroupid != destgroup.GroupId {
-		return false, errors.New("The slot dest groupid is incorrect!")
+		return false, errors.New("The slot dest groupid is incorrect!"), Error_SlotDstIdError
 	}
 
-	if ret, err := DeleteSlotFromGroup(&slot, &group); err != nil {
-		return ret, err
+	if ret, err, ecode := DeleteSlotFromGroup(&slot, &group); err != nil {
+		return ret, err, ecode
 	}
 
-	if ret, err := AddSlotToGroup(&slot, &destgroup); err != nil {
-		return ret, err
+	if ret, err, ecode := AddSlotToGroup(&slot, &destgroup); err != nil {
+		return ret, err, ecode
 	}
 
 	group_byte , err := json.Marshal(&group)
@@ -757,18 +817,18 @@ func (server *ManagerServer) MoveSlotToGroup (slotid, srcid, destid uint64) (boo
 	ctres, err := ctxn.Commit()
 	if err != nil {
 		server.logger.Println("MoveSlotToGroup Commit error:", err)
-		return false, err
+		return false, err, Error_TxnCommitFailed
 	}
 
 	if !ctres.Succeeded {
 		server.logger.Println("MoveSlotToGroup Commit Unsucceed:", err)
-		return false, errors.New("MoveSlotToGroup Commit Unsucceed")
+		return false, errors.New("MoveSlotToGroup Commit Unsucceed"), Error_TxnCommitFailed
 	}
 
-	return true, nil
+	return true, nil, Error_NoError
 }
 
-func (server *ManagerServer) StartMoveSlotToGroup (slotid, srcid, destid uint64) (bool, error) {
+func (server *ManagerServer) StartMoveSlotToGroup (slotid, srcid, destid uint64) (bool, error, int32) {
 	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
 	defer cancel()
 	if (srcid == 0 || destid == 0 || slotid == 0) {
@@ -785,7 +845,7 @@ func (server *ManagerServer) StartMoveSlotToGroup (slotid, srcid, destid uint64)
 	txn.Then(clientv3.OpGet(slot_key), clientv3.OpGet(src_group_key), clientv3.OpGet(dest_group_key))
 	tres, err := txn.Commit()
 	if !tres.Succeeded {
-		return false, errors.New("Get slot and groups failed!")
+		return false, errors.New("Get slot and groups failed!"), Error_TxnCommitFailed
 	}
 
 	for i := 0; i < len(tres.Responses); i++ {
@@ -798,27 +858,27 @@ func (server *ManagerServer) StartMoveSlotToGroup (slotid, srcid, destid uint64)
 	slotkv := tres.Responses[0].GetResponseRange().Kvs[0]
 	var slot SlotItem
 	if json.Unmarshal(slotkv.Value, &slot) != nil {
-		return false, errors.New("Unmarshal slot value is error!")
+		return false, errors.New("Unmarshal slot value is error!"), Error_SlotJsonFormatErr
 	}
 
 	if slot.IsAdjust {
-		return false, errors.New("Slot is moving!")
+		return false, errors.New("Slot is moving!"), Error_SlotInAdjusting
 	}
 
 	groupkv := tres.Responses[1].GetResponseRange().Kvs[0]
 	var group CacheGroupItem
 	if json.Unmarshal(groupkv.Value, &group) != nil {
-		return false, errors.New("Unmarshal group value is error!")
+		return false, errors.New("Unmarshal src group value is error!"), Error_GroupJsonFormatErr
 	}
 
 	destgroupkv := tres.Responses[2].GetResponseRange().Kvs[0]
 	var destgroup CacheGroupItem
 	if json.Unmarshal(destgroupkv.Value, &destgroup) != nil {
-		return false, errors.New("Unmarshal group value is error!")
+		return false, errors.New("Unmarshal dst group value is error!"), Error_GroupJsonFormatErr
 	}
 
-	if ret, err := SlotInGroup(&slot, &group); err != nil {
-		return ret, err
+	if ret, err, ecode:= SlotInGroup(&slot, &group); err != nil {
+		return ret, err, ecode
 	}
 
 	slot.IsAdjust = true
@@ -835,15 +895,15 @@ func (server *ManagerServer) StartMoveSlotToGroup (slotid, srcid, destid uint64)
 	ctres, err := ctxn.Commit()
 	if err != nil {
 		server.logger.Println("StartMoveSlotToGroup Commit error:", err)
-		return false, err
+		return false, err, Error_TxnCommitFailed
 	}
 
 	if !ctres.Succeeded {
 		server.logger.Println("StartMoveSlotToGroup Commit Unsucceed:", err)
-		return false, errors.New("StartMoveSlotToGroup Commit Unsucceed")
+		return false, errors.New("StartMoveSlotToGroup Commit Unsucceed"), Error_TxnCommitFailed
 	}
 
-	return true, nil
+	return true, nil, Error_NoError
 }
 
 

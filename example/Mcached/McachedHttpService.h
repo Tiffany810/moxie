@@ -24,6 +24,15 @@ struct HttpServiceConf {
 
 class McachedHttpService {
 public:
+    enum CmdType {
+        CmdCreateCacheGroup 		= 	0,
+        CmdDeleteCacheGroup			= 	1,
+        CmdAddSlot					= 	2,
+        CmdMoveSlot					= 	3,
+        CmdDelSlot					= 	4,
+        CmdSlotStartMove			= 	5,
+    };
+
     McachedHttpService();
     bool Init(const HttpServiceConf& conf);
     bool Start();
@@ -33,6 +42,10 @@ private:
     void ThreadWorker();
     void PostProcess(HttpRequest& request, HttpResponse& response);
     void GetProcess(HttpRequest& request, HttpResponse& response);
+    void Http4xxResponse(HttpResponse& response,
+                        const std::string& code,
+                        const std::string& status,
+                        const std::string& version);
 private:
     HttpServiceConf conf_;
     std::shared_ptr<HttpServer> server_;

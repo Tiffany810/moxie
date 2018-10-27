@@ -9,11 +9,31 @@ import (
 
 const (
 	CmdCreateCacheGroup 		= 	0
-	CmdDeleteCacheGroup			= 	1
-	CmdAddSlot					= 	2
-	CmdMoveSlot					= 	3
-	CmdDelSlot					= 	4
-	CmdSlotStartMove			= 	5
+	CmdActivateGroup			= 	1
+	CmdDeleteCacheGroup			= 	2
+	CmdAddSlot					= 	3
+	CmdMoveSlot					= 	4
+	CmdDelSlot					= 	5
+	CmdSlotStartMove			= 	6
+)
+
+const (
+	Error_NoError				= 0
+	Error_SlotNotInThisGroup 	= 1
+	Error_SlotHasInThisGroup	= 2
+	Error_SlotInAdjusting		= 3
+	Error_SlotNotInAdjusting	= 4
+	Error_SlotHasOwnGroup		= 5
+	Error_GroupIsNotActivated	= 6
+	Error_GroupIsActivated		= 7
+	Error_GroupNotEmpty			= 8
+	Error_TxnCommitFailed		= 9
+	Error_SlotJsonFormatErr		= 10
+	Error_GroupJsonFormatErr	= 11
+	Error_SlotSourceIdError		= 12
+	Error_SlotDstIdError		= 13
+	Error_GetMaxGroupIdFailed	= 14
+	Error_CmdNotFound			= 15
 )
 
 type GroupReviseHandler struct {
@@ -29,6 +49,7 @@ type GroupReviseRequest struct {
 
 type GroupReviseResponse struct {
 	Succeed					bool	`json:"succeed"`
+	Ecode 					int32	`json:"ecode"`
 	Msg 					string	`json:"msg"`
 }
 
@@ -84,6 +105,8 @@ func (handler *GroupReviseHandler) ServeHTTP(response http.ResponseWriter, reque
 	switch grr.Cmdtype {
 	case CmdCreateCacheGroup:
 		handler.HandleCreateCacheGroup(grr, Httpres)
+	case CmdActivateGroup:
+		handler.HandleActivateCacheGroup(grr, Httpres)
 	case CmdDeleteCacheGroup:
 		handler.HandleDeleteCacheGroup(grr, Httpres)
 	case CmdAddSlot:
@@ -97,6 +120,7 @@ func (handler *GroupReviseHandler) ServeHTTP(response http.ResponseWriter, reque
 	default:
 		Httpres.Msg = "Cmd not found!"
 		Httpres.Succeed = false
+		Httpres.Ecode = Error_CmdNotFound
 	}
 
 	if error_res, err := json.Marshal(Httpres); err == nil {
@@ -104,6 +128,27 @@ func (handler *GroupReviseHandler) ServeHTTP(response http.ResponseWriter, reque
 	} else {
 		response.WriteHeader(500)
 		handler.server.logger.Println("Marshal failed!")
+	}
+}
+
+func (handler *GroupReviseHandler) HandleActivateCacheGroup(request *GroupReviseRequest, response *GroupReviseResponse) {
+	Item := &CacheGroupItem {
+		GroupId	: request.SourceGroupId,
+		Hosts	: CacheAddr {
+			Master : "",
+			Slaves : make([]string, 0),
+		},
+		SlotsIndex : make([]uint64, 0),
+	}
+
+	if succ, err, ecode := handler.server.ActivateCachedGroup(Item); err == nil {
+		response.Succeed = succ
+		response.Ecode = ecode
+		response.Msg = "ok"
+	} else {
+		response.Succeed = succ
+		response.Ecode = ecode
+		response.Msg = err.Error()
 	}
 }
 
@@ -117,61 +162,73 @@ func (handler *GroupReviseHandler) HandleCreateCacheGroup(request *GroupReviseRe
 		SlotsIndex : make([]uint64, 0),
 	}
 
-	if succ, err := handler.server.CreateCachedGroup(Item); err == nil {
+	if succ, err, ecode := handler.server.CreateCachedGroup(Item); err == nil {
 		response.Succeed = succ
+		response.Ecode = ecode
 		response.Msg = "ok"
 	} else {
 		response.Succeed = succ
+		response.Ecode = ecode
 		response.Msg = err.Error()
 	}
 }
 
 func (handler *GroupReviseHandler) HandleDeleteCacheGroup(request *GroupReviseRequest, response *GroupReviseResponse) {
-	if succ, err := handler.server.DeleteCachedGroup(request.SourceGroupId); err == nil {
+	if succ, err, ecode := handler.server.DeleteCachedGroup(request.SourceGroupId); err == nil {
 		response.Succeed = succ
+		response.Ecode = ecode
 		response.Msg = "ok"
 	} else {
 		response.Succeed = succ
+		response.Ecode = ecode
 		response.Msg = err.Error()
 	}
 }
 
 func (handler *GroupReviseHandler) HandleDelSlot(request *GroupReviseRequest, response *GroupReviseResponse) {
-	if succ, err := handler.server.DeleteSlotfromGroup(request.SlotId, request.SourceGroupId); err == nil {
+	if succ, err, ecode := handler.server.DeleteSlotfromGroup(request.SlotId, request.SourceGroupId); err == nil {
 		response.Succeed = succ
+		response.Ecode = ecode
 		response.Msg = "ok"
 	} else {
 		response.Succeed = succ
+		response.Ecode = ecode
 		response.Msg = err.Error()
 	}
 }
 
 func (handler *GroupReviseHandler) HandleAddSlot(request *GroupReviseRequest, response *GroupReviseResponse) {
-	if succ, err := handler.server.AddSlotToGroup(request.SlotId, request.SourceGroupId); err == nil {
+	if succ, err, ecode := handler.server.AddSlotToGroup(request.SlotId, request.SourceGroupId); err == nil {
 		response.Succeed = succ
+		response.Ecode = ecode
 		response.Msg = "ok"
 	} else {
 		response.Succeed = succ
+		response.Ecode = ecode
 		response.Msg = err.Error()
 	}
 }
 
 func (handler *GroupReviseHandler) HandleMoveSlot(request *GroupReviseRequest, response *GroupReviseResponse) {
-	if succ, err := handler.server.MoveSlotToGroup(request.SlotId, request.SourceGroupId, request.DestGroupId); err == nil {
+	if succ, err, ecode := handler.server.MoveSlotToGroup(request.SlotId, request.SourceGroupId, request.DestGroupId); err == nil {
 		response.Succeed = succ
+		response.Ecode = ecode
 		response.Msg = "ok"
 	} else {
 		response.Succeed = succ
+		response.Ecode = ecode
 		response.Msg = err.Error()
 	}
 }
 
 func (handler *GroupReviseHandler) HandleSlotStartMove(request *GroupReviseRequest, response *GroupReviseResponse) {
-	if succ, err := handler.server.StartMoveSlotToGroup(request.SlotId, request.SourceGroupId, request.DestGroupId); err == nil {
+	if succ, err, ecode := handler.server.StartMoveSlotToGroup(request.SlotId, request.SourceGroupId, request.DestGroupId); err == nil {
 		response.Succeed = succ
+		response.Ecode = ecode
 		response.Msg = "ok"
 	} else {
 		response.Succeed = succ
+		response.Ecode = ecode
 		response.Msg = err.Error()
 	}
 }

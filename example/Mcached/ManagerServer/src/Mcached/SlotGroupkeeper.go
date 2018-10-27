@@ -74,6 +74,7 @@ type CacheGroupRequest struct {
 
 type CacheGroupItem struct {
 	GroupId						uint64	    `json:"group_id"`
+	Activated					bool 		`json:"is_activated"`
 	Hosts						CacheAddr   `json:"cached_hosts"`
 	SlotsIndex					[]uint64	`json:"slots"`
 }
@@ -456,9 +457,9 @@ func (ser *CachedGroupListHandler) ServeHTTP(response http.ResponseWriter, reque
 	response.Write(httpres)
 }
 
-func DeleteSlotFromGroup(slot *SlotItem, group *CacheGroupItem) (bool, error) {
+func DeleteSlotFromGroup(slot *SlotItem, group *CacheGroupItem) (bool, error, int32) {
 	if slot.Groupid != group.GroupId {
-		return false, errors.New("The slot not belongs to this group")
+		return false, errors.New("The slot not belongs to this group"), Error_SlotHasOwnGroup
 	} 
 	
 	index := -1
@@ -471,7 +472,7 @@ func DeleteSlotFromGroup(slot *SlotItem, group *CacheGroupItem) (bool, error) {
 	}
 
 	if index == -1 {
-		return false, errors.New("Slot can't found in this Group!")
+		return false, errors.New("Slot can't found in this Group!"), Error_SlotNotInThisGroup
 	}
 
 	tmp := make([]uint64, 0)
@@ -483,12 +484,12 @@ func DeleteSlotFromGroup(slot *SlotItem, group *CacheGroupItem) (bool, error) {
 	slot.IsAdjust = false
 	slot.DstGroupid = 0
 
-	return true, nil
+	return true, nil, Error_NoError
 }
 
-func AddSlotToGroup(slot *SlotItem, group *CacheGroupItem) (bool, error) {
+func AddSlotToGroup(slot *SlotItem, group *CacheGroupItem) (bool, error,int32) {
 	if slot.Groupid == group.GroupId {
-		return false, errors.New("The slot belongs to this group")
+		return false, errors.New("The slot belongs to this group"), Error_SlotHasInThisGroup
 	} 
 	
 	index := -1
@@ -501,7 +502,7 @@ func AddSlotToGroup(slot *SlotItem, group *CacheGroupItem) (bool, error) {
 	}
 
 	if index != -1 {
-		return false, errors.New("Slot found in this Group!")
+		return false, errors.New("Slot found in this Group!"), Error_SlotHasInThisGroup
 	}
 
 	group.SlotsIndex = append(group.SlotsIndex, slot.Index)
@@ -509,12 +510,12 @@ func AddSlotToGroup(slot *SlotItem, group *CacheGroupItem) (bool, error) {
 	slot.IsAdjust = false
 	slot.DstGroupid = 0
 
-	return true, nil
+	return true, nil, Error_NoError
 }
 
-func SlotInGroup(slot *SlotItem, group *CacheGroupItem) (bool, error) {
+func SlotInGroup(slot *SlotItem, group *CacheGroupItem) (bool, error, int32) {
 	if slot.Groupid != group.GroupId {
-		return false, errors.New("The slot belongs to this group")
+		return false, errors.New("The slot belongs to this group"), Error_SlotNotInThisGroup
 	} 
 	
 	index := -1
@@ -527,8 +528,8 @@ func SlotInGroup(slot *SlotItem, group *CacheGroupItem) (bool, error) {
 	}
 
 	if index == -1 {
-		return false, errors.New("Slot not found in this Group!")
+		return false, errors.New("Slot not found in this Group!"), Error_SlotNotInThisGroup
 	}
 
-	return true, nil
+	return true, nil, Error_NoError
 }
