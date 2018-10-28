@@ -12,6 +12,7 @@
 #include <PollerEvent.h>
 #include <EventLoop.h>
 #include <Thread.h>
+#include <Timer.h>
 
 namespace moxie {
 
@@ -77,7 +78,15 @@ private:
     int GetByCurl(const std::string& url, std::string& response, struct CurlExt &ext);
     int PostByCurl(const std::string& url, std::string &body, 
                    std::string& response, struct CurlExt &ext);
+    
+    void CreateCachedId();
+    void ActivatedCachedId();
+
     void ThreadWorker();
+
+    void CheckerThreadWorker();
+    void CheckerTimerWorker(moxie::Timer *timer, moxie::EventLoop *loop);
+
     void PostProcess(HttpRequest& request, HttpResponse& response);
     void GetProcess(HttpRequest& request, HttpResponse& response);
     void Http4xxResponse(HttpResponse& response,
@@ -94,8 +103,15 @@ private:
     std::shared_ptr<HttpServer> server_;
     NetAddress addr_;
     std::shared_ptr<PollerEvent> event_;
+
+    // for http service
     EventLoop *loop_;
     std::shared_ptr<Thread> thread_;
+
+    // for meta checker
+    EventLoop *checker_loop_;
+    std::shared_ptr<Thread> checker_thread_;
+    moxie::Timer *checker_timer_;
 
     std::vector<std::string> manager_url_list_;
     std::string cur_manager_url_;

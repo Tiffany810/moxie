@@ -16,3 +16,13 @@ void moxie::ServiceMeta::CacheId(uint64_t groupid) {
     MutexLocker lock(mutex_);
     this->group_id_ = groupid;
 }
+
+bool moxie::ServiceMeta::CacheIdActivated() {
+    MutexLocker lock(mutex_);
+    return this->group_id_activated_;
+}
+
+bool moxie::ServiceMeta::CacheIdActivated(bool activated) {
+    MutexLocker lock(mutex_);
+    this->group_id_activated_ = activated;
+}

@@ -9,11 +9,15 @@
 
 moxie::McachedHttpService::McachedHttpService()
     : server_(std::make_shared<HttpServer>()),
-    loop_(new EventLoop) {
+    loop_(new EventLoop),
+    checker_loop_(new EventLoop) {
 }
 
 moxie::McachedHttpService::~McachedHttpService() {
+    this->thread_->Stop();
+    checker_thread_->Stop();
     delete loop_;
+    delete checker_loop_;
 }
 
 bool moxie::McachedHttpService::Init(const HttpServiceConf& conf) {
@@ -50,12 +54,15 @@ bool moxie::McachedHttpService::Init(const HttpServiceConf& conf) {
     server_->RegisterMethodCallback("GET", std::bind(&McachedHttpService::GetProcess, this, std::placeholders::_1, std::placeholders::_2));
     server_->RegisterMethodCallback("get", std::bind(&McachedHttpService::GetProcess, this, std::placeholders::_1, std::placeholders::_2));
 
+    checker_timer_ = new Timer(std::bind(&McachedHttpService::CheckerTimerWorker, this, std::placeholders::_1, std::placeholders::_2), moxie::AddTime(Timestamp::Now(), 0.5));
+
     thread_ = std::make_shared<Thread>(std::bind(&McachedHttpService::ThreadWorker, this));
+    checker_thread_ = std::make_shared<Thread>(std::bind(&McachedHttpService::CheckerThreadWorker, this));
     return true;
 }
 
 bool moxie::McachedHttpService::Start() {
-    return thread_->Start();
+    return thread_->Start() && checker_thread_->Start();
 }
 
 void moxie::McachedHttpService::PostProcess(HttpRequest& request, HttpResponse& response) {
@@ -146,7 +153,7 @@ void moxie::McachedHttpService::ProcessCmdAddSlot(const ClientRequestArgs& args,
         }
     }
 
-    if (300 <= ext.status_code < 400) {
+    if (300 <= ext.status_code && ext.status_code < 400) {
         this->cur_manager_url_ = ext.redirect_url;
         PostByCurl(this->cur_manager_url_, body, post_res, ext);
     }
@@ -173,6 +180,7 @@ void moxie::McachedHttpService::ProcessCmdDelSlot(const ClientRequestArgs& args,
         Http4xxResponse(response, "400", "Bad Request!", request.GetVersion());
         return;
     }
+
     Json::Value root;
     Json::FastWriter writer;
     root["cmd_type"] = CmdReverseType::CmdDelSlotFromGroup;
@@ -183,6 +191,7 @@ void moxie::McachedHttpService::ProcessCmdDelSlot(const ClientRequestArgs& args,
     std::string body = writer.write(root);
     std::string post_res = "";
     struct CurlExt ext;
+
     if (PostByCurl(this->cur_manager_url_, body, post_res, ext) != CURLE_OK) {
         for (size_t index = 0; index < this->manager_url_list_.size(); ++index) {
             if (this->manager_url_list_[index] == this->cur_manager_url_) {
@@ -308,6 +317,109 @@ int moxie::McachedHttpService::PostByCurl(const std::string& url,
     return ret;
 }
 
+void moxie::McachedHttpService::CreateCachedId() {
+    assert(ServiceMeta::Instance()->CacheId() == 0);
+    Json::Value root;
+    Json::FastWriter writer;
+    root["cmd_type"] = CmdReverseType::CmdCreateCacheGroup;
+    root["source_id"] = 0;
+    root["dest_id"] = 0;
+    root["slot_id"] = 0;
+
+    std::string body = writer.write(root);
+    std::string post_res = "";
+    struct CurlExt ext;
+
+    if (PostByCurl(this->cur_manager_url_, body, post_res, ext) != CURLE_OK) {
+        for (size_t index = 0; index < this->manager_url_list_.size(); ++index) {
+            if (this->manager_url_list_[index] == this->cur_manager_url_) {
+                continue;
+            }
+            if (PostByCurl(this->manager_url_list_[index], body, post_res, ext) == CURLE_OK) {
+                this->cur_manager_url_ = this->manager_url_list_[index];
+                break;
+            }
+        }
+    }
+
+    if (300 <= ext.status_code && ext.status_code < 400) {
+        this->cur_manager_url_ = ext.redirect_url;
+        PostByCurl(this->cur_manager_url_, body, post_res, ext);
+    }
+    std::cout << "post_res:" << post_res << std::endl;
+    if (ext.status_code == 200) {
+        Json::Reader reader;  
+        Json::Value body_root;
+        if (reader.parse(post_res, body_root) 
+            && body_root.isMember("ext") 
+            && body_root["ext"].isString()
+            && body_root.isMember("succeed")
+            && body_root["succeed"].isBool()
+            && body_root["succeed"].asBool()) {
+            std::string ext = body_root["ext"].asString();
+            int64_t group_id = std::atoll(ext.c_str());
+            if (group_id <= 0) {
+                std::cout << "Create group id failed!" << std::endl;
+            } else {
+                ServiceMeta::Instance()->CacheId(group_id);
+            }
+        } else {
+            std::cout << "Create group id failed!" << std::endl;
+        }
+    } else {
+        std::cout << "Create group id failed!" << std::endl;
+    }
+}
+
+void moxie::McachedHttpService::ActivatedCachedId() {
+    assert(ServiceMeta::Instance()->CacheId() != 0);
+    assert(!ServiceMeta::Instance()->CacheIdActivated());
+    Json::Value root;
+    Json::FastWriter writer;
+    root["cmd_type"] = CmdReverseType::CmdActivateGroup;
+    root["source_id"] = ServiceMeta::Instance()->CacheId();
+    root["dest_id"] = 0;
+    root["slot_id"] = 0;
+
+    std::string body = writer.write(root);
+    std::string post_res = "";
+    struct CurlExt ext;
+
+    if (PostByCurl(this->cur_manager_url_, body, post_res, ext) != CURLE_OK) {
+        for (size_t index = 0; index < this->manager_url_list_.size(); ++index) {
+            if (this->manager_url_list_[index] == this->cur_manager_url_) {
+                continue;
+            }
+            if (PostByCurl(this->manager_url_list_[index], body, post_res, ext) == CURLE_OK) {
+                this->cur_manager_url_ = this->manager_url_list_[index];
+                break;
+            }
+        }
+    }
+
+    if (300 <= ext.status_code && ext.status_code < 400) {
+        this->cur_manager_url_ = ext.redirect_url;
+        PostByCurl(this->cur_manager_url_, body, post_res, ext);
+    }
+
+    if (ext.status_code == 200) {
+        Json::Reader reader;  
+        Json::Value body_root;
+        if (reader.parse(post_res, body_root) 
+            && body_root.isMember("ext") 
+            && body_root["ext"].isString()
+            && body_root.isMember("succeed")
+            && body_root["succeed"].isBool()
+            && body_root["succeed"].asBool()) {
+            ServiceMeta::Instance()->CacheIdActivated(true);
+        } else {
+            std::cout << "Activated group id failed!" << std::endl;
+        }
+    } else {
+        std::cout << "Activated group id failed!" << std::endl;
+    }
+}
+
 void moxie::McachedHttpService::ThreadWorker() {
     assert(loop_);
     if (!loop_->Register(this->event_, this->server_)) {
@@ -317,4 +429,28 @@ void moxie::McachedHttpService::ThreadWorker() {
     }
 
     loop_->Loop();
+}
+
+void moxie::McachedHttpService::CheckerThreadWorker() {
+    assert(this->checker_loop_ && this->checker_timer_);
+    if (!checker_loop_->RegisterTimer(this->checker_timer_)) {
+        LOGGER_ERROR("Loop Register Error");
+        delete checker_loop_;
+        return;
+    }
+
+    checker_loop_->Loop();
+}
+
+void moxie::McachedHttpService::CheckerTimerWorker(moxie::Timer *timer, moxie::EventLoop *loop) {
+    if (ServiceMeta::Instance()->CacheId() == 0) {
+        this->CreateCachedId();
+    } else {
+        if (!ServiceMeta::Instance()->CacheIdActivated()) {
+            this->ActivatedCachedId();
+        }
+    }
+
+    //must be after do sth done
+    timer->Reset(moxie::AddTime(Timestamp::Now(), 1));
 }

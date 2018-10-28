@@ -1,6 +1,7 @@
 package Mcached
 
 import (
+	"fmt"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -52,6 +53,7 @@ type GroupReviseResponse struct {
 	Succeed					bool	`json:"succeed"`
 	Ecode 					int32	`json:"ecode"`
 	Msg 					string	`json:"msg"`
+	Ext 					string	`json:"ext"`
 }
 
 func GetRedirectRequestUrl(request *http.Request, redirect_host string) string {
@@ -159,6 +161,7 @@ func (handler *GroupReviseHandler) HandleCreateCacheGroup(request *GroupReviseRe
 		response.Succeed = succ
 		response.Ecode = ecode
 		response.Msg = "ok"
+		response.Ext = fmt.Sprintf("%d", Item.GroupId);
 	} else {
 		response.Succeed = succ
 		response.Ecode = ecode

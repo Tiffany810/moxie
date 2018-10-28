@@ -1,9 +1,11 @@
 libs := -ljsoncpp -lcurl -lhttp -lutils -lmoxie -lmcached -lprotobuf -ltcmalloc_minimal -lpthread 
-cflags := -O2 -g -std=c++11 -static -Wall -DNDEBUG
+cflags := -O2 -g -std=c++11 -static -Wall
+#cflags := -O2 -g -std=c++11 -static -Wall -DNDEBUG
 CC = g++
 
 LDDIR += -L../../lib \
 		 -L./mcached \
+		 -L/opt/curl/lib \
 		 -L/opt/protobuf/lib \
 		 -L/opt/rocksdb/lib \
 		 -L/opt/jsoncpp/lib \
@@ -15,6 +17,7 @@ INCLUDEDIR += -I./ \
 			  -I../../http \
 			  -I../../utils \
 			  -I../../base \
+			  -I/opt/curl/include \
 			  -I/opt/protobuf/include \
 			  -I/opt/rocksdb/include/ \
 			  -I/opt/jsoncpp/include

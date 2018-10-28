@@ -19,9 +19,12 @@ public:
     static ServiceMeta* Instance();
     uint64_t CacheId();
     void CacheId(uint64_t groupid);
+    bool CacheIdActivated();
+    bool CacheIdActivated(bool activated);
 private:
     ServiceMeta() :
-        group_id_(0) {
+        group_id_(0),
+        group_id_activated_(false) {
     }
     ServiceMeta(const ServiceMeta& that) = default;
     ServiceMeta& operator=(const ServiceMeta& that);
@@ -29,6 +32,7 @@ private:
     static ServiceMeta *instance_;
     Mutex mutex_;
     uint64_t group_id_;
+    bool group_id_activated_;
     std::list<SlotInfo> moving_in_slots_;
     std::list<SlotInfo> moving_out_slots_;
 };
