@@ -936,7 +936,94 @@ func (server *ManagerServer) StartMoveSlotToGroup (slotid, srcid, destid uint64)
 	return true, nil, Error_NoError
 }
 
+func (server *ManagerServer) GetGroupKeepAliveMasterKey(groupid uint64, host string) string {
+	key_prefix := fmt.Sprintf("%s%d/%s", CachedGroupMasterPrefix, groupid, host)
+	return key_prefix
+}
 
+func (server *ManagerServer) GetGroupKeepAliveSlaveKey(groupid uint64, host string) string {
+	key_prefix := fmt.Sprintf("%s%d/%s", CachedGroupSlavePrefix, groupid, host)
+	return key_prefix
+}
+
+func (server *ManagerServer) GetGroupKeepAliveMasterPrefix(groupid uint64) string {
+	key_prefix := fmt.Sprintf("%s%d", CachedGroupMasterPrefix, groupid)
+	return key_prefix
+}
+
+func (server *ManagerServer) GetGroupKeepAliveSlavePrefix(groupid uint64) string {
+	key_prefix := fmt.Sprintf("%s%d", CachedGroupSlavePrefix, groupid)
+	return key_prefix
+}
+
+func (server *ManagerServer) KeepAliveCachedGroup(request *GroupKeepAliveRequest) (bool, error, int32) {
+	if request == nil {
+		server.logger.Panicln("Request is nil!")
+	}
+	var key_prefix string
+	if request.Master {
+		key_prefix = server.GetGroupKeepAliveMasterKey(request.Groupid, request.Addr)
+	} else {
+		key_prefix = server.GetGroupKeepAliveSlaveKey(request.Groupid, request.Addr)
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
+	defer cancel()
+
+	resp, err := server.EtcdClientv3.Grant(ctx, 5)
+	if err != nil {
+		server.logger.Println("Grant lease failed:", err)
+		return false, err, Error_ServerInternelError
+	}
+
+	_, err = server.EtcdClientv3.Put(ctx, key_prefix, request.Addr, clientv3.WithLease(resp.ID))
+	if err != nil {
+		server.logger.Println("Upadte key lease failed:", err)
+		return false, err, Error_ServerInternelError
+	}
+	return true, nil, Error_NoError
+}
+
+func (server *ManagerServer) PeeksCachedGroup(request *GroupReviseRequest, response *GroupReviseResponse) (bool, error, int32) {
+	if request == nil || response == nil {
+		server.logger.Panicln("Request or response is nil!")
+	}
+
+	master_key_prefix := server.GetGroupKeepAliveMasterPrefix(request.SourceGroupId)
+	slave_key_prefix := server.GetGroupKeepAliveSlavePrefix(request.SourceGroupId)
+
+	ctx, cancel := context.WithTimeout(context.Background(), EtcdGetRequestTimeout)
+	defer cancel()
+
+	mres , err := server.EtcdClientv3.Get(ctx, master_key_prefix, clientv3.WithPrefix())
+	if err != nil {
+		server.logger.Printf("Get key %s error:%v", master_key_prefix, err)
+		return false, err, Error_ServerInternelError
+	}
+
+	sres , err := server.EtcdClientv3.Get(ctx, slave_key_prefix, clientv3.WithPrefix())
+	if err != nil {
+		server.logger.Printf("Get key %s error:%v", slave_key_prefix, err)
+		return false, err, Error_ServerInternelError
+	}
+
+	ext := ""
+	// add master add to ext
+	for i := 0; i < len(mres.Kvs); i++ {
+		ext += string(mres.Kvs[i].Value) + ";"
+	}
+
+	ext += "|"
+
+	for i := 0; i < len(sres.Kvs); i++ {
+		ext += string(sres.Kvs[i].Value) + ";"
+	}
+
+	ext += "|"
+
+	response.Ext = ext
+
+	return true, nil, Error_NoError
+}
 
 
 

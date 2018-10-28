@@ -16,6 +16,11 @@ const (
 	CmdMoveSlotDone				= 	4
 	CmdDelSlotFromGroup			= 	5
 	CmdMoveSlotStart			= 	6
+	CmdPeekGroupHosts			= 	7
+)
+
+const (
+	GroupKeepAlive				= 	0
 )
 
 const (
@@ -36,9 +41,14 @@ const (
 	Error_GetMaxGroupIdFailed	= 14
 	Error_CmdNotFound			= 15
 	Error_SlotOrGroupIsZero		= 16
+	Error_ServerInternelError 	= 17
 )
 
 type GroupReviseHandler struct {
+	server *ManagerServer
+}
+
+type GroupKeepAliveHandler struct {
 	server *ManagerServer
 }
 
@@ -56,11 +66,95 @@ type GroupReviseResponse struct {
 	Ext 					string	`json:"ext"`
 }
 
+type GroupKeepAliveRequest struct {
+	Cmdtype 				uint32	`json:"cmd_type"`
+	Master  				bool 	`json:"is_master"`
+	Addr 					string	`json:"hosts"`
+	Groupid 				uint64 	`json:"source_id"`
+}
+
+type GroupKeepAliveResponse struct {
+	Succeed					bool	`json:"succeed"`
+	Ecode 					int32	`json:"ecode"`
+	Msg 					string	`json:"msg"`
+}
+
 func GetRedirectRequestUrl(request *http.Request, redirect_host string) string {
 	if request == nil {
 		return ""
 	}
 	return redirect_host + request.RequestURI
+}
+
+func (handler *GroupKeepAliveHandler) ServeHTTP(response http.ResponseWriter, request *http.Request) {
+	isleader, leader, err := handler.server.IsLeader()
+	if err != nil{
+		if err == concurrency.ErrElectionNoLeader {
+			// Service Unavailable
+			handler.server.logger.Println("Service Unavailable")
+			response.WriteHeader(503)
+		} else {
+			// Internal Server Error
+			handler.server.logger.Println("Internal Server Error")
+			response.WriteHeader(500)
+		}
+		return
+	}
+	
+	if isleader == false {
+		if leader == "" {
+			handler.server.logger.Println("Internal Server Error leader status!")
+			response.WriteHeader(500)
+		} else {
+			handler.server.logger.Println("Request was redireted!")
+			http.Redirect(response, request, GetRedirectRequestUrl(request, leader), 307)
+		}
+		return
+	}
+
+	Httpres := &GroupKeepAliveResponse {
+		Succeed : false,
+		Msg : "",
+	}
+
+	grr := &GroupKeepAliveRequest {}
+	body, _ := ioutil.ReadAll(request.Body)
+	if err := json.Unmarshal(body, grr); err != nil {
+		response.WriteHeader(500)
+		handler.server.logger.Println("json.Unmarshal Request failed:", err)
+		if error_res, err := json.Marshal(Httpres); err == nil {
+			response.Write(error_res)
+		}
+		return
+	}
+
+	switch grr.Cmdtype {
+	case GroupKeepAlive:
+		handler.HandleCacheGroupKeepAlive(grr, Httpres)
+	default:
+		Httpres.Msg = "Cmd not found!"
+		Httpres.Succeed = false
+		Httpres.Ecode = Error_CmdNotFound
+	}
+
+	if error_res, err := json.Marshal(Httpres); err == nil {
+		response.Write(error_res)
+	} else {
+		response.WriteHeader(500)
+		handler.server.logger.Println("Marshal failed!")
+	}
+}
+
+func (handler *GroupKeepAliveHandler) HandleCacheGroupKeepAlive(request *GroupKeepAliveRequest, response *GroupKeepAliveResponse) {
+	if succ, err, ecode := handler.server.KeepAliveCachedGroup(request); err == nil {
+		response.Succeed = succ
+		response.Ecode = ecode
+		response.Msg = "ok"
+	} else {
+		response.Succeed = succ
+		response.Ecode = ecode
+		response.Msg = err.Error()
+	}
 }
 
 func (handler *GroupReviseHandler) ServeHTTP(response http.ResponseWriter, request *http.Request) {
@@ -120,6 +214,8 @@ func (handler *GroupReviseHandler) ServeHTTP(response http.ResponseWriter, reque
 		handler.HandleMoveSlot(grr, Httpres)
 	case CmdMoveSlotStart:
 		handler.HandleSlotStartMove(grr, Httpres)
+	case CmdPeekGroupHosts:
+		handler.HandlePeekGroupHosts(grr, Httpres)
 	default:
 		Httpres.Msg = "Cmd not found!"
 		Httpres.Succeed = false
@@ -131,6 +227,18 @@ func (handler *GroupReviseHandler) ServeHTTP(response http.ResponseWriter, reque
 	} else {
 		response.WriteHeader(500)
 		handler.server.logger.Println("Marshal failed!")
+	}
+}
+
+func (handler *GroupReviseHandler) HandlePeekGroupHosts(request *GroupReviseRequest, response *GroupReviseResponse) {
+	if succ, err, ecode := handler.server.PeeksCachedGroup(request, response); err == nil {
+		response.Succeed = succ
+		response.Ecode = ecode
+		response.Msg = "ok"
+	} else {
+		response.Succeed = succ
+		response.Ecode = ecode
+		response.Msg = err.Error()
 	}
 }
 
