@@ -21,6 +21,8 @@ struct HttpServiceConf {
     short port;
     std::string work_path;
     std::string manager_server_list;
+    std::string keepalive_server_list;
+    std::string mcached_hosts;
 };
 
 class McachedHttpService {
@@ -33,6 +35,11 @@ public:
         CmdMoveSlotDone				= 	4,
         CmdDelSlotFromGroup			= 	5,
         CmdMoveSlotStart			= 	6,
+        CmdPeekGroupHosts           =   7,
+    };
+
+    enum CmdKeepAliveType{
+        GroupKeepAlive				= 	0,
     };
 
     struct GroupReviseRequest {
@@ -86,6 +93,8 @@ private:
 
     void CheckerThreadWorker();
     void CheckerTimerWorker(moxie::Timer *timer, moxie::EventLoop *loop);
+    void KeepAliveTimerWorker(moxie::Timer *timer, moxie::EventLoop *loop);
+    void KeepAlive();
 
     void PostProcess(HttpRequest& request, HttpResponse& response);
     void GetProcess(HttpRequest& request, HttpResponse& response);
@@ -108,14 +117,19 @@ private:
     EventLoop *loop_;
     std::shared_ptr<Thread> thread_;
 
+    std::string mcached_hosts_;
+
     // for meta checker
     EventLoop *checker_loop_;
     std::shared_ptr<Thread> checker_thread_;
     moxie::Timer *checker_timer_;
+    moxie::Timer *keepalive_timer_;
 
     std::vector<std::string> manager_url_list_;
     std::string cur_manager_url_;
-    std::string manager_path_;
+
+    std::vector<std::string> keepalive_server_list_;
+    std::string cur_keepalive_url_;
 };
 
 }

@@ -90,8 +90,10 @@ int main(int argc, char **argv) {
     HttpServiceConf conf;
     conf.ip = "127.0.0.1";
     conf.port = 13579;
+    conf.mcached_hosts = argv[1] + std::string(":") + argv[2];
     conf.work_path = httpservice_work_path;
     conf.manager_server_list = "http://127.0.0.1:8898/Mcached/GroupRevise/";
+    conf.keepalive_server_list = "http://127.0.0.1:8898/Mcached/EndPoints/";
 
     McachedHttpService service;
     if (service.Init(conf)) {

@@ -1,0 +1,646 @@
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/ManagerHandler.go:204: McachedManager server running!
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/ManagerHandler.go:278: Leader: localhost:8898
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/ManagerHandler.go:389: Slots count: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 491
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/ManagerHandler.go:357: Groupid count: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 0
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/ManagerHandler.go:541: New groupid key: /Mcached/CachedGroup/1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/ManagerHandler.go:480: New groupid key: /Mcached/CachedGroup/1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 1
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/ManagerHandler.go:541: New groupid key: /Mcached/CachedGroup/2
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 2
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/ManagerHandler.go:480: New groupid key: /Mcached/CachedGroup/2
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 2
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 2
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 2
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/ManagerHandler.go:541: New groupid key: /Mcached/CachedGroup/3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/ManagerHandler.go:480: New groupid key: /Mcached/CachedGroup/3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:157: DoUpdateSlotsCache
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:201: DoUpdateSlotsCache update slot: 1024
+/home/fas/source/github/moxie/example/Mcached/ManagerServer/src/Mcached/SlotGroupkeeper.go:207: DoUpdateSlotsCache update group: 3

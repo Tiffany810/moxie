@@ -41,11 +41,19 @@ bool moxie::McachedHttpService::Init(const HttpServiceConf& conf) {
         return false;
     }
 
+    this->mcached_hosts_ = conf_.mcached_hosts;
+
     this->manager_url_list_ = moxie::utils::StringSplit(conf_.manager_server_list, ";");
     if (this->manager_url_list_.size() == 0) {
         return false;
     }
     this->cur_manager_url_ = this->manager_url_list_[0];
+
+    this->keepalive_server_list_ = moxie::utils::StringSplit(conf_.keepalive_server_list, ";");
+    if (this->keepalive_server_list_.size() == 0) {
+        return false;
+    }
+    this->cur_keepalive_url_ = this->keepalive_server_list_[0];
 
     event_ = std::make_shared<PollerEvent>(server, moxie::kReadEvent);
     server_->RegisterMethodCallback("POST", std::bind(&McachedHttpService::PostProcess, this, std::placeholders::_1, std::placeholders::_2));
@@ -54,6 +62,7 @@ bool moxie::McachedHttpService::Init(const HttpServiceConf& conf) {
     server_->RegisterMethodCallback("GET", std::bind(&McachedHttpService::GetProcess, this, std::placeholders::_1, std::placeholders::_2));
     server_->RegisterMethodCallback("get", std::bind(&McachedHttpService::GetProcess, this, std::placeholders::_1, std::placeholders::_2));
 
+    keepalive_timer_ = new Timer(std::bind(&McachedHttpService::KeepAliveTimerWorker, this, std::placeholders::_1, std::placeholders::_2), moxie::AddTime(Timestamp::Now(), 0.5), 2);
     checker_timer_ = new Timer(std::bind(&McachedHttpService::CheckerTimerWorker, this, std::placeholders::_1, std::placeholders::_2), moxie::AddTime(Timestamp::Now(), 0.5));
 
     thread_ = std::make_shared<Thread>(std::bind(&McachedHttpService::ThreadWorker, this));
@@ -346,7 +355,7 @@ void moxie::McachedHttpService::CreateCachedId() {
         this->cur_manager_url_ = ext.redirect_url;
         PostByCurl(this->cur_manager_url_, body, post_res, ext);
     }
-    std::cout << "post_res:" << post_res << std::endl;
+    std::cout << "[CreateCachedId]post_res:" << post_res << std::endl;
     if (ext.status_code == 200) {
         Json::Reader reader;  
         Json::Value body_root;
@@ -401,7 +410,7 @@ void moxie::McachedHttpService::ActivatedCachedId() {
         this->cur_manager_url_ = ext.redirect_url;
         PostByCurl(this->cur_manager_url_, body, post_res, ext);
     }
-
+    std::cout << "[ActivatedCachedId]post_res:" << post_res << std::endl;
     if (ext.status_code == 200) {
         Json::Reader reader;  
         Json::Value body_root;
@@ -439,7 +448,66 @@ void moxie::McachedHttpService::CheckerThreadWorker() {
         return;
     }
 
+    if (!checker_loop_->RegisterTimer(this->keepalive_timer_)) {
+        LOGGER_ERROR("Loop Register Error");
+        delete checker_loop_;
+        return;
+    }
+
     checker_loop_->Loop();
+}
+
+void moxie::McachedHttpService::KeepAliveTimerWorker(moxie::Timer *timer, moxie::EventLoop *loop) {
+    this->KeepAlive();
+}
+
+void moxie::McachedHttpService::KeepAlive() {
+    if (ServiceMeta::Instance()->CacheId() == 0
+        || !ServiceMeta::Instance()->CacheIdActivated()) {
+        return;
+    }
+    uint64_t gid = ServiceMeta::Instance()->CacheId();
+    Json::Value root;
+    Json::FastWriter writer;
+    root["cmd_type"] = CmdKeepAliveType::GroupKeepAlive;
+    root["source_id"] = gid;
+    root["is_master"] = true;
+    root["hosts"] = this->mcached_hosts_;
+
+    std::string body = writer.write(root);
+    std::string post_res = "";
+    struct CurlExt ext;
+
+    if (PostByCurl(this->cur_keepalive_url_, body, post_res, ext) != CURLE_OK) {
+        for (size_t index = 0; index < this->keepalive_server_list_.size(); ++index) {
+            if (this->keepalive_server_list_[index] == this->cur_keepalive_url_) {
+                continue;
+            }
+            if (PostByCurl(this->keepalive_server_list_[index], body, post_res, ext) == CURLE_OK) {
+                this->cur_keepalive_url_ = this->keepalive_server_list_[index];
+                break;
+            }
+        }
+    }
+
+    if (300 <= ext.status_code && ext.status_code < 400) {
+        this->cur_keepalive_url_ = ext.redirect_url;
+        PostByCurl(this->cur_keepalive_url_, body, post_res, ext);
+    }
+    std::cout << "[KeepAlive]post_res:" << post_res << std::endl;
+    if (ext.status_code == 200) {
+        Json::Reader reader;  
+        Json::Value body_root;
+        if (reader.parse(post_res, body_root) 
+            && body_root.isMember("succeed")
+            && body_root["succeed"].isBool()
+            && body_root["succeed"].asBool()) {
+        } else {
+            std::cout << "KeepAlive[1] group_id[" << gid << "] failed!" << std::endl;
+        }
+    } else {
+        std::cout << "KeepAlive[2] group_id[" << gid << "] failed!" << std::endl;
+    }
 }
 
 void moxie::McachedHttpService::CheckerTimerWorker(moxie::Timer *timer, moxie::EventLoop *loop) {

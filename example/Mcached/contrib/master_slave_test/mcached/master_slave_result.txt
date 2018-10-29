@@ -1,0 +1,27 @@
+sxf@sxfspace:~/work/moxie/example/Mcached/CacheClient$ ./RunRedisClient.sh 1000 256
+rn = 100, ip = 192.168.56.1:6479, keylen = 30, datalen = 256, reqs = 1000
+total_reqs:[100000] set_per_sec:[58479.532164] get_per_sec:[100603.621730]
+sxf@sxfspace:~/work/moxie/example/Mcached/CacheClient$ ./RunRedisClient.sh 1000 512 
+rn = 100, ip = 192.168.56.1:6479, keylen = 30, datalen = 512, reqs = 1000
+total_reqs:[100000] set_per_sec:[54764.512596] get_per_sec:[95419.847328]
+sxf@sxfspace:~/work/moxie/example/Mcached/CacheClient$ ./RunRedisClient.sh 1000 1024 
+rn = 100, ip = 192.168.56.1:6679, keylen = 30, datalen = 1024, reqs = 1000
+total_reqs:[100000] set_per_sec:[51867.219917] get_per_sec:[91996.320147]
+sxf@sxfspace:~/work/moxie/example/Mcached/CacheClient$ ./RunRedisClient.sh 1000 2048
+rn = 100, ip = 192.168.56.1:6479, keylen = 30, datalen = 2048, reqs = 1000
+total_reqs:[100000] set_per_sec:[40241.448692] get_per_sec:[51572.975761]
+sxf@sxfspace:~/work/moxie/example/Mcached/CacheClient$ ./RunRedisClient.sh 1000 4096
+rn = 100, ip = 192.168.56.1:6479, keylen = 30, datalen = 4096, reqs = 1000
+total_reqs:[100000] set_per_sec:[25879.917184] get_per_sec:[27685.492802]
+sxf@sxfspace:~/work/moxie/example/Mcached/CacheClient$ ./RunRedisClient.sh 1000 8192
+rn = 100, ip = 192.168.56.1:6479, keylen = 30, datalen = 8192, reqs = 1000
+total_reqs:[100000] set_per_sec:[13774.104683] get_per_sec:[14192.449617]
+sxf@sxfspace:~/work/moxie/example/Mcached/CacheClient$ ./RunRedisClient.sh 500 16384
+rn = 100, ip = 192.168.56.1:6579, keylen = 30, datalen = 16384, reqs = 500
+total_reqs:[50000] set_per_sec:[7005.744711] get_per_sec:[7140.816909]
+sxf@sxfspace:~/work/moxie/example/Mcached/CacheClient$ ./RunRedisClient.sh 250 32768
+rn = 100, ip = 192.168.56.1:6479, keylen = 30, datalen = 32768, reqs = 250
+total_reqs:[25000] set_per_sec:[3564.299971] get_per_sec:[3585.771658]
+sxf@sxfspace:~/work/moxie/example/Mcached/CacheClient$ ./RunRedisClient.sh 125 65536
+rn = 100, ip = 192.168.56.1:6479, keylen = 30, datalen = 65536, reqs = 125
+total_reqs:[12500] set_per_sec:[1786.735277] get_per_sec:[1793.657627]

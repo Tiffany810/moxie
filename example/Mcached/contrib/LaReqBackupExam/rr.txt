@@ -1,0 +1,5 @@
+I1029 15:51:19.806450  7329 client.cpp:76] balancer:rr reqs:1000 total_time:2711950
+I1029 15:51:25.185390  7329 client.cpp:76] balancer:rr reqs:2000 total_time:5378120
+I1029 15:51:33.314464  7329 client.cpp:76] balancer:rr reqs:3000 total_time:8128476
+I1029 15:51:44.231955  7329 client.cpp:76] balancer:rr reqs:4000 total_time:10916712
+I1029 15:51:57.765419  7329 client.cpp:76] balancer:rr reqs:5000 total_time:13532580

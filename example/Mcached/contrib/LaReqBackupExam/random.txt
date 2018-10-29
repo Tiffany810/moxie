@@ -1,0 +1,5 @@
+I1029 15:52:00.462205  7329 client.cpp:76] balancer:random reqs:1000 total_time:2696086
+I1029 15:52:05.883878  7329 client.cpp:76] balancer:random reqs:2000 total_time:5421009
+I1029 15:52:14.152972  7329 client.cpp:76] balancer:random reqs:3000 total_time:8268397
+I1029 15:52:24.874207  7329 client.cpp:76] balancer:random reqs:4000 total_time:10720451
+I1029 15:52:38.507325  7329 client.cpp:76] balancer:random reqs:5000 total_time:13632139
