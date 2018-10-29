@@ -1,20 +1,20 @@
-#include <MemcachedClient.h>
+#include <McachedClient.h>
 
-bool mmcache::MemcachedClient::Init(const std::string& server, int32_t timeout, int32_t retry) {
+bool mmcache::McachedClient::Init(const std::string& server, const std::string& lb, int32_t timeout, int32_t retry) {
     brpc::ChannelOptions options;
     options.protocol = brpc::PROTOCOL_MEMCACHE;
-    options.connection_type = "single";
+    options.connection_type = "pooled";
     options.timeout_ms = timeout /*milliseconds*/;
     options.max_retry = retry;
 
-    if (channel.Init(server.c_str(), &options) != 0) {
+    if (channel.Init(server.c_str(), lb.c_str(), &options) != 0) {
         LOG(ERROR) << "Fail to initialize channel";
         return false;
     }
     return true;
 }
 
-bool mmcache::MemcachedClient::Set(const std::string& key, const std::string& value, uint32_t flags, uint32_t exptime, uint64_t cas_value) {
+bool mmcache::McachedClient::Set(const std::string& key, const std::string& value, uint32_t flags, uint32_t exptime, uint64_t cas_value) {
     brpc::MemcacheRequest request;
     if (!request.Set(key, value, flags, exptime, cas_value)) {
         LOG(ERROR) << "Fail to SET request";
@@ -36,7 +36,7 @@ bool mmcache::MemcachedClient::Set(const std::string& key, const std::string& va
     return true;
 }
 
-bool mmcache::MemcachedClient::Get(const std::string& key, uint32_t* flags, std::string& value) {
+bool mmcache::McachedClient::Get(const std::string& key, uint32_t* flags, std::string& value) {
     brpc::MemcacheRequest request;
     if (!request.Get(key)) {
         LOG(ERROR) << "Fail to GET request";

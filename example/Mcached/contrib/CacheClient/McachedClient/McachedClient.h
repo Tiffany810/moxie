@@ -9,9 +9,9 @@
 
 namespace mmcache {
 
-class MemcachedClient {
+class McachedClient {
 public:
-    bool Init(const std::string& server, int32_t timeout, int32_t retry);
+    bool Init(const std::string& server, const std::string& lb = "la", int32_t timeout = 500, int32_t retry = 3);
     bool Set(const std::string& key, const std::string& value, uint32_t flags = 1111, uint32_t exptime = 0, uint64_t cas_value = 0);
     bool Get(const std::string& key, uint32_t *flags, std::string& value);
 private:
