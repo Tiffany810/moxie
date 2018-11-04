@@ -18,18 +18,18 @@ func GetStringInSize(size uint, char string) (string, error) {
 }
 
 type Task struct {
-	master redis.Conn
-	slave redis.Conn
+	master  redis.Conn
+	slave   redis.Conn
 	datalen uint
-	keylen uint
-	addr string
-	reqs int
+	keylen  uint
+	addr    string
+	reqs    int
 }
 
 func main() {
 	routinenum := flag.Int("rn", 4, "Go routine Num!")
-	master_ip := flag.String("master", "127.0.0.1:11211", "The address of master redis server!")
-	slave_ip := flag.String("slave", "127.0.0.1:11211", "The address of slave redis server!")	
+	master_ip := flag.String("master", "192.168.56.1:6379", "The address of master redis server!")
+	slave_ip := flag.String("slave", "192.168.56.1:6377", "The address of slave redis server!")
 	keylen := flag.Uint("keylen", 30, "The default length of key!")
 	datalen := flag.Uint("datalen", 128, "The default length of data!")
 	reqs := flag.Int("reqs", 10000, "The times of this test!")
@@ -57,15 +57,16 @@ func main() {
 			return
 		}
 		ctx = append(ctx, Task{
-			master : masterclient,
-			slave : slaveclient,
-			datalen : *datalen,
-			keylen : *keylen,
-			reqs : *reqs,
+			master:  masterclient,
+			slave:   slaveclient,
+			datalen: *datalen,
+			keylen:  *keylen,
+			reqs:    *reqs,
 		})
 		total_reqs += uint64(*reqs)
 	}
 
+	var get_miss_reqs uint64 = 0
 	wg.Add(*routinenum)
 	start_set_time := time.Now()
 	for i := 0; i < len(ctx); i++ {
@@ -83,9 +84,8 @@ func main() {
 					break
 				}
 				_, err = t.slave.Do("get", key)
-                if err != nil {
-					fmt.Println("Get Error:", err, " key:", key)
-					break
+				if err != nil {
+					get_miss_reqs++
 				}
 			}
 		}(&ctx[i], i)
@@ -94,9 +94,9 @@ func main() {
 	end_set_time := time.Now()
 	total_set_time := GetTimeDelaUs(end_set_time.UnixNano(), start_set_time.UnixNano())
 	set_per_sec := float64(total_reqs) / float64(total_set_time) * 1000
-	fmt.Printf("total_reqs:[%d] set_get_per_sec:[%f]\n", total_reqs, set_per_sec)
+	fmt.Printf("total_reqs:[%d] set_get_per_sec:[%f] Get_miss_reqs:[%d]\n", total_reqs, set_per_sec, get_miss_reqs)
 }
 
 func GetTimeDelaUs(end, start int64) int64 {
-    return (end - start) / int64(time.Millisecond)
+	return (end - start) / int64(time.Millisecond)
 }

@@ -1,2 +1,2 @@
 #!/bin/bash
-./bin/EtcdApiTest --advertise-client-urls http://localhost:32379 
+./bin/EtcdApiTest -etcd-client localhost:32379 
