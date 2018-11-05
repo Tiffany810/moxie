@@ -11,5 +11,7 @@ func main() {
 	etcd_client_addr := make([]string, 0)
 	etcd_client_addr =append(etcd_client_addr, *etcd_client)
 	
-	TestTxnReversion(etcd_client_addr)
+	//TestTxnReversion(etcd_client_addr)
+	ExampleElection_CampaignWithNotify(etcd_client_addr)
+	// ExampleElection_Campaign(etcd_client_addr)
 }

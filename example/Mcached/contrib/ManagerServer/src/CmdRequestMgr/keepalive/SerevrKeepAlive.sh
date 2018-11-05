@@ -2,7 +2,7 @@
 
 if [ $# != 2 ]
 then
-    echo "Usage:ServerKeepAlive.sh groupid server_name"
+    echo "Usage:ServerKeepAlive.sh id server_name"
     exit 0
 fi
 

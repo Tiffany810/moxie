@@ -78,9 +78,9 @@ func (resolver *NameResolver) DoNameResolver(name_resolver_request *NameResolver
 func (resolver *NameResolver) ParseServerList (name_resolver_request *NameResolverRequest, name_resolver_response *NameResolverResponse) {
 	server_list_path := ""
 	if resolver.WorkRoot != "" {
-		server_list_path = resolver.WorkRoot + name_resolver_request.ServerName
+		server_list_path = resolver.WorkRoot + name_resolver_request.ServerName + "/"
 	} else {
-		server_list_path = KeepAliveWorkRootDef + name_resolver_request.ServerName
+		server_list_path = KeepAliveWorkRootDef + name_resolver_request.ServerName + "/"
 	}
 
 	log.Println("server_list_path:", server_list_path)

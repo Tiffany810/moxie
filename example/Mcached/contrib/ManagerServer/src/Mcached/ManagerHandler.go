@@ -57,7 +57,7 @@ type ManagerServer struct {
 	electChan     chan *concurrency.Election
 	election      *concurrency.Election
 	elecErrorChan chan error
-	elecNotify    chan int
+	elecNotify    chan bool
 
 	HttpServer *http.Server
 
@@ -125,7 +125,7 @@ func (server *ManagerServer) Init(cfg *McachedConf) bool {
 	server.election = concurrency.NewElection(server.session, ManagerMasterPrefix)
 	server.elecErrorChan = make(chan error, 2)
 
-	server.elecNotify = make(chan int)
+	server.elecNotify = make(chan bool)
 	if server.elecNotify == nil {
 		log.Fatal("Create Server elecNotify channel failed!")
 	}
@@ -160,7 +160,7 @@ func (server *ManagerServer) RegisterHttpHandler() {
 	mux.Handle(SlotKeeperPrefix, slot_keeper)
 
 	name_resolver := &NameResolver{
-		WorkRoot: KeepAliveWorkRootDef,
+		WorkRoot:    KeepAliveWorkRootDef,
 		server:      server,
 		logger:      server.logger,
 		etcd_client: server.etcdClient,
@@ -173,7 +173,7 @@ func (server *ManagerServer) RegisterHttpHandler() {
 	}
 	mux.Handle("/", html_handler)
 
-	query_infos, _:= NewQueryInfos(server)
+	query_infos, _ := NewQueryInfos(server)
 	mux.Handle(QueryInfosPrefix, query_infos)
 	query_infos.Run()
 
@@ -290,7 +290,7 @@ func (server *ManagerServer) CampaignForLeader() {
 	go func() {
 		ctx, cancel := context.WithCancel(context.TODO())
 		defer cancel()
-		if err := server.election.CampaignWithNotify(ctx, server.config.LocalAddr, server.elecNotify); err != nil {
+		if err := server.election.CampaignWaitNotify(ctx, server.config.LocalAddr, server.elecNotify); err != nil {
 			server.logger.Println("Election Campaign error:", err)
 			server.elecErrorChan <- err
 		} else {
