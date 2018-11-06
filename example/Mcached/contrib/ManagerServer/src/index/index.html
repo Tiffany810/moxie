@@ -2,28 +2,67 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="index/List.css" type="text/css" />
-    <script type="text/javascript" src="index/ListAction.js"> </script>
+    <link rel="stylesheet" href="index.css" type="text/css" />
+    <link rel="stylesheet" href="bootstrap-table/src/bootstrap-table.css">
+    <link rel="stylesheet" href="bootstrap-table/assets/bootstrap/css/bootstrap.css">
+    <script type="text/javascript" src="right_box_action.js"> </script>
+    <script src="bootstrap-table/assets/jquery.min.js"></script>
+    <script src="bootstrap-table/src/bootstrap-table.js"></script>
+    <script>
+        $(document).ready(function(){
+            index_document_ready_init()
+        });
+    </script>
 </head>
 
 <body>
-    <div class="firstinline">
-        <div class="LeftList" id="test">
-            <ul> 
-                <li> 
-                    <h3>Mcached元素</h3> 
-                </li> 
-                <li>
-                    <a href="#" onclick="SlotListShow()"> Slot列表 </a>
-                </li> 
-                <li>
-                    <a href="#"> Cache组列表 </a>
-                </li> 
-            </ul>
-        </div> 
-    </div>
-    <div class="firstinline" id="RightBox">
-    </div>   
+    <div class="left_list" id="left_main_list">
+        <ul> 
+            <li> 
+                <h3>Mcached元素</h3> 
+            </li> 
+            <li>
+                <a href="#" onclick="slot_box_show()"> Slot管理组件 </a>
+            </li> 
+            <li>
+                <a href="#" onclick="group_box_show()"> Group管理组件 </a>
+            </li> 
+        </ul>
+    </div> 
+    <div class="right_box_slow_header" id="right_header_box">
+        <h4 id="right_box_show_header_title">
+        </h4>
+    </div> 
+
+    <div class="right_box_slow_list" id="right_manager_box">
+        <div class="panel panel-default">
+            <div class="panel-body" id="etcd_server_hosts_list">
+                
+            </div> 
+            <div class="panel-body">
+                <div class="row">
+                    <input class="form-control" style="display:inline" id="ip_port_input" type="text">
+                    <button type="button" onclick="add_etcd_server_hosts()" style="display:inline" class="btn btn-warning">Add</button>
+                </div>
+            </div>   
+        </div>
+    </div> 
+
+    <div class="right_box_slow_list" id="right_slot_box">
+        <ul class="list-group">
+            <li class="list-group-item">slot first item</li>
+            <li class="list-group-item">slot second item</li>
+            <li class="list-group-item">slot third item</li>
+        </ul>
+    </div> 
+
+    <div class="right_box_slow_list" id="right_group_box">
+        <ul class="list-group">
+            <li class="list-group-item">group first item</li>
+            <li class="list-group-item">group second item</li>
+            <li class="list-group-item">group third item</li>
+        </ul>
+    </div> 
 </body>
 
 </html>
