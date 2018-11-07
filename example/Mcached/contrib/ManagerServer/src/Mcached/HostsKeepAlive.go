@@ -35,6 +35,16 @@ type KeepAliveResponse struct {
 }
 
 func (handler *HostsKeepAliveHandler) ServeHTTP(response http.ResponseWriter, request *http.Request) {
+	if origin := request.Header.Get("Origin"); origin != "" {
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		response.Header().Set("Access-Control-Allow-Headers", "Action, Module")
+	}
+		
+	if request.Method == "OPTIONS" {
+		return
+	}
+	
 	lr_ctx_nosafe := handler.server.PeekLeaderContext()
 	if lr_ctx_nosafe.IsLeader == false {
 		if lr_ctx_nosafe.LeaderVal == "" {

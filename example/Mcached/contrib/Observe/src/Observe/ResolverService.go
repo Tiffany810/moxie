@@ -29,10 +29,20 @@ type NameResolverResponse struct {
 }
 
 func (resolver *ResolverService) ServeHTTP(response http.ResponseWriter, request *http.Request) {
+	if origin := request.Header.Get("Origin"); origin != "" {
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		response.Header().Set("Access-Control-Allow-Headers", "Action, Module")
+	}
+		
+	if request.Method == "OPTIONS" {
+		return
+	}
+	
 	name_resolver_request := &NameResolverRequest{}
 	body, _ := ioutil.ReadAll(request.Body)
+	log.Println("Body:", string(body))
 	if err := json.Unmarshal(body, name_resolver_request); err != nil {
-		response.WriteHeader(500)
 		resolver.logger.Println("json.Unmarshal Request failed:", err)
 		name_resolver_response := &NameResolverResponse{
 			Succeed: false,
