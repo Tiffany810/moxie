@@ -265,12 +265,12 @@ function get_combine_of_group_slots(slots_array) {
             continue  
         }
         if (s - 1 == ls) {
-            ret_str += ret_str + slots_array[ls]
+            ret_str = ret_str + slots_array[ls]
         } else {
             ret_str = ret_str + "[" + slots_array[ls] + "-" + slots_array[s - 1] + "]"
         }
 
-        if (s != arr_len - 1) {
+        if (ls != arr_len - 1) {
             ret_str = ret_str + ","
         }
 
@@ -278,7 +278,7 @@ function get_combine_of_group_slots(slots_array) {
     }
 
     if (s - 1 == ls) {
-        ret_str += ret_str + slots_array[ls]
+        ret_str = ret_str + slots_array[ls]
     } else {
         ret_str = ret_str + "[" + slots_array[ls] + "-" + slots_array[s - 1] + "]"
     }

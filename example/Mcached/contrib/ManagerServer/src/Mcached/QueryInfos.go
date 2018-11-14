@@ -1,6 +1,7 @@
 package Mcached
 
 import (
+	"fmt"
 	"context"
 	"encoding/json"
 	"errors"
@@ -161,6 +162,16 @@ func (query *QueryInfos) DoUpdateSlotList() {
 }
 
 func (query *QueryInfos) ServeHTTP(response http.ResponseWriter, request *http.Request) {
+	if origin := request.Header.Get("Origin"); origin != "" {
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		response.Header().Set("Access-Control-Allow-Headers", "Action, Module")
+	}
+		
+	if request.Method == "OPTIONS" {
+		return
+	}
+	
 	lr_ctx_nosafe := query.server.PeekLeaderContext()
 	if lr_ctx_nosafe.IsLeader == false {
 		if lr_ctx_nosafe.LeaderVal == "" {
@@ -274,6 +285,8 @@ func (query *QueryInfos) PackageGroupsInfo(group_request *QueryGroupRequest, gro
 
 	start_index = Max(0, start_index)
 	end_index = Min(end_index, len(query.GroupIdList))
+
+	fmt.Printf("start_index:%d, end_index:%d, len_list:%d\n", start_index, end_index,  len(query.GroupIdList))
 
 	if !query.checkGroupRequestIndexNoSafe(start_index, end_index) {
 		return false, Error_InvaildArgs, errors.New("Args's index invailed!")
