@@ -15,8 +15,14 @@
 #include <PollerEvent.h>
 #include <McachedServer.h>
 #include <McachedHttpService.h>
+#include <mraft/floyd/src/floyd_impl.h>
+#include <IdGenerator.h>
 
 using namespace moxie;
+using namespace floyd;
+
+std::shared_ptr<floyd::FloydImpl> floyd_raft;
+IdGenerator *igen;
 
 const std::string httpservice_work_path = "/mcached/service";
 
@@ -56,11 +62,39 @@ void RegisterMcachedWorkerTask(EventLoop *loop, WorkContext *ctx) {
     }
 }
 
+void RegisterFloydImpl(moxie::EventLoop* loop, std::shared_ptr<floyd::FloydImpl> impl) {
+    std::cout << "RegisterFloydImpl Process[" << impl->GetWakeUpFd() << "] ok!" << std::endl;
+    std::shared_ptr<moxie::PollerEvent> event(new moxie::PollerEvent(impl->GetWakeUpFd(), moxie::kReadEvent));
+    loop->Register(event, impl);
+}
+
 int main(int argc, char **argv) {
-    if (argc < 4) {
-        std::cout << "Usage:mcached 127.0.0.1 6379 threads" << std::endl; 
+    if (argc < 2) {
+        std::cout << "Usage:mcached conf" << std::endl; 
         return -1;
     }
+
+    moxie::Conf conf;
+    if (conf.ParseConf(argv[1]) == false) {
+        std::cout << "Parse mcached conf failed!" << std::endl;
+        return -1;
+    }
+
+    auto raftConf = conf.GetRaftConf();
+    Options op(raftConf.cluster, raftConf.ip, raftConf.port, raftConf.data);
+    op.Dump();
+
+    slash::Status s;
+    floyd_raft = std::shared_ptr<floyd::FloydImpl>(new floyd::FloydImpl(op));
+    s = floyd_raft->Init();
+    if (!s.ok()) {
+        std::cout << s.ToString().c_str() << std::endl;
+        return -1;
+    }
+    auto raft_thread = std::make_shared<EventLoopThread>();
+    raft_thread->Start();
+    raft_thread->PushTask(std::bind(RegisterFloydImpl, std::placeholders::_1, floyd_raft));
+    std::cout << "Floyd raft init " << s.ToString().c_str() << "!" << std::endl;
 
     WorkContext *ctx = new (std::nothrow) WorkContext;
     if (ctx == nullptr) {
@@ -68,14 +102,19 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    ctx->port = std::atoi(argv[2]);
-    ctx->ip = argv[1];
-    int threads = std::atoi(argv[3]);
+    auto mcached_conf = conf.GetMcachedConf();
+    auto service_conf = conf.GetServiceConf();
+    auto mgr_conf = conf.GetManagerServiceConf();
+
+    ctx->port = mcached_conf.port;
+    ctx->ip = mcached_conf.ip;
+    int threads = mcached_conf.threads;
     if (threads < 1) {
         LOGGER_ERROR("Thread must larger than 1!");
         return -1;
     }
-    
+    igen = new IdGenerator(mcached_conf.id, Timestamp::NanoSeconds());
+
     std::vector<std::shared_ptr<EventLoopThread>> thds; thds.reserve(threads);
     for (int i = 0; i < threads; ++i) {
         EventLoop *loop = new EventLoop;
@@ -86,14 +125,6 @@ int main(int argc, char **argv) {
             thds.push_back(td);
         }
     }
-
-    HttpServiceConf conf;
-    conf.ip = "127.0.0.1";
-    conf.port = 13579;
-    conf.mcached_hosts = argv[1] + std::string(":") + argv[2];
-    conf.work_path = httpservice_work_path;
-    conf.manager_server_list = "http://127.0.0.1:8898/Mcached/GroupRevise/";
-    conf.keepalive_server_list = "http://127.0.0.1:8898/Mcached/EndPoints/";
 
     McachedHttpService service;
     if (service.Init(conf)) {

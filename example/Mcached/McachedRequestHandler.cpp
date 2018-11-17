@@ -1,6 +1,12 @@
 #include <McachedRequestHandler.h>
 #include <McachedServer.h>
 
+#include <mraft/floyd/src/floyd_impl.h>
+
+extern std::shared_ptr<floyd::FloydImpl> floyd_raft;
+
+extern moxie::IdGenerator *igen;
+
 moxie::McachedClientHandler::McachedClientHandler(McachedServer *server, const std::shared_ptr<PollerEvent>& client,  const std::shared_ptr<moxie::NetAddress>& cad) :
     server_(server),
     event_(client),
@@ -11,7 +17,7 @@ moxie::McachedClientHandler::McachedClientHandler(McachedServer *server, const s
 
 void moxie::McachedClientHandler::AfetrRead(const std::shared_ptr<PollerEvent>& event, EventLoop *loop) {
     if (ParseRedisRequest()) {
-        this->DoMcachedCammand();
+        this->DoMcachedCammand(loop);
     } 
     if (writeBuf_.readableBytes() > 0) {
         event_->EnableWrite();
@@ -27,33 +33,48 @@ void moxie::McachedClientHandler::AfetrWrite(const std::shared_ptr<PollerEvent>&
     loop->Modity(event);
 }
 
-bool moxie::McachedClientHandler::DoMcachedCammand() {
-    ResetArgcArgv reset(argc_, argv_);
+void moxie::McachedClientHandler::MraftCallBack(const std::string& response, std::shared_ptr<McachedClientHandler> client) {
+    client->et_->PushTask([response, client](EventLoop *loop){
+        ResetArgcArgv reset(client->argc_, client->argv_);
+        if (client->argv_[0] == "SET" || client->argv_[0] == "set") {
+            client->ReplyString(response);
+        } else if (client->argv_[0] == "get" || client->argv_[0] == "GET") {
+            client->ReplyBulkString(response);
+        }
+        client->event_->EnableWrite();
+        loop->Modity(client->event_);
+    });
+}
+
+bool moxie::McachedClientHandler::DoFinallyMcached(EventLoop *loop, const std::string& response) {
+    ResetArgcArgv reset(this->argc_, this->argv_);
+    if (this->argv_[0] == "SET" || this->argv_[0] == "set") {
+        this->ReplyString(response);
+    } else if (this->argv_[0] == "get" || this->argv_[0] == "GET") {
+        this->ReplyBulkString(response);
+    }
+    this->event_->EnableWrite();
+    loop->Modity(this->event_);
+    return true;
+}
+
+bool moxie::McachedClientHandler::DoMcachedCammand(EventLoop *loop) {
     assert(argc_ == argv_.size());
     assert(argc_ > 0);
-    std::string res;
-    this->cmd_ = argv_[0];
+    assert(floyd_raft);
 
-    int ret = server_->ApplyMcached(argv_, res);
-
-    if (ret == 0) {
-        if (this->cmd_ == "SET" || this->cmd_ == "set") {
-            res = "+OK\r\n";
-            ReplyString(res);
-        } else if (this->cmd_ == "get" || this->cmd_ == "GET") {
-            ReplyBulkString(res);
-        }
-    } else {
-        if (this->cmd_ == "SET" || this->cmd_ == "set") {
-            res = "-ERR write \r\n";
-        } else if (this->cmd_ == "get" || this->cmd_ == "GET") {
-            res = "-ERR read \r\n";
-        } else {
-            res = "-ERR request \r\n";
-        }
-        ReplyString(res);
+    if (this->argv_[0] == "get" || this->argv_[0] == "GET") {
+        std::string res;
+        floyd_raft->ApplyMcached(this->argv_, res);
+        this->DoFinallyMcached(loop, res);
+        return true;
     }
-    
+
+    floyd::MraftTask task;
+    task.argv = this->argv_;
+    task.reqid = igen->Next();
+    task.raft_complete_notify = std::bind(McachedClientHandler::MraftCallBack, std::placeholders::_1, shared_from_this());
+    floyd_raft->PushTask(task);
     return true;
 }
 

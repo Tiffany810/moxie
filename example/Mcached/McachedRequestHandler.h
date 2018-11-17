@@ -9,16 +9,18 @@
 #include <EventLoop.h>
 #include <PollerEvent.h>
 #include <NetAddress.h>
+#include <EventLoopThread.h>
 
 namespace moxie {
 
 class McachedServer;
 
-class McachedClientHandler : public ClientHandler {
+class McachedClientHandler : public ClientHandler, public std::enable_shared_from_this<McachedClientHandler> {
 public:
     McachedClientHandler(McachedServer *server, const std::shared_ptr<PollerEvent>& client,  const std::shared_ptr<moxie::NetAddress>& cad);
     virtual void AfetrRead(const std::shared_ptr<PollerEvent>& event, EventLoop *loop) override;
     virtual void AfetrWrite(const std::shared_ptr<PollerEvent>& event, EventLoop *loop) override;
+    static void MraftCallBack(const std::string& response, std::shared_ptr<McachedClientHandler> client);
 private:
     class ResetArgcArgv {
     public:
@@ -33,8 +35,8 @@ private:
             size_t& argc_;
             std::vector<std::string>& argv_;
     };
-
-    bool DoMcachedCammand();
+    bool DoFinallyMcached(EventLoop *loop, const std::string& response);
+    bool DoMcachedCammand(EventLoop *loop);
     void ApplyMcachedCommand();
     bool ParseRedisRequest();
     void DebugArgcArgv() const;
@@ -48,6 +50,7 @@ private:
     size_t argc_;
     std::vector<std::string> argv_;
     int curArgvlen_;
+    std::shared_ptr<EventLoopThread> et_;
 };
 
 }

@@ -18,16 +18,16 @@ func GetStringInSize(size uint, char string) (string, error) {
 }
 
 type Task struct {
-	client redis.Conn
+	client  redis.Conn
 	datalen uint
-	keylen uint
-	addr string
-	reqs int
+	keylen  uint
+	addr    string
+	reqs    int
 }
 
 func main() {
 	routinenum := flag.Int("rn", 4, "Go routine Num!")
-	addr := flag.String("ip", "127.0.0.1:6379", "The address of redis server!")
+	addr := flag.String("ip", "192.168.56.1:6379", "The address of redis server!")
 	keylen := flag.Uint("keylen", 30, "The default length of key!")
 	datalen := flag.Uint("datalen", 128, "The default length of data!")
 	reqs := flag.Int("reqs", 10000, "The times of this test!")
@@ -50,11 +50,11 @@ func main() {
 			return
 		}
 		ctx = append(ctx, Task{
-			client : redisclient,
-			datalen : *datalen,
-			keylen : *keylen,
-			addr : *addr,
-			reqs : *reqs,
+			client:  redisclient,
+			datalen: *datalen,
+			keylen:  *keylen,
+			addr:    *addr,
+			reqs:    *reqs,
 		})
 		total_reqs += uint64(*reqs)
 	}
@@ -91,7 +91,7 @@ func main() {
 			for rq = 0; rq < t.reqs; rq++ {
 				key := strconv.Itoa(id) + keyprefix + strconv.Itoa(rq)
 				_, err := t.client.Do("get", key)
-                if err != nil {
+				if err != nil {
 					fmt.Println("Get Error:", err, " key:", key)
 					break
 				}
@@ -103,10 +103,10 @@ func main() {
 	total_set_time := GetTimeDelaUs(end_set_time.UnixNano(), start_set_time.UnixNano())
 	total_get_time := GetTimeDelaUs(end_get_time.UnixNano(), start_get_time.UnixNano())
 	set_per_sec := float64(total_reqs) / float64(total_set_time) * 1000
-    get_per_sec := float64(total_reqs) / float64(total_get_time) * 1000
+	get_per_sec := float64(total_reqs) / float64(total_get_time) * 1000
 	fmt.Printf("total_reqs:[%d] set_per_sec:[%f] get_per_sec:[%f]\n", total_reqs, set_per_sec, get_per_sec)
 }
 
 func GetTimeDelaUs(end, start int64) int64 {
-    return (end - start) / int64(time.Millisecond)
+	return (end - start) / int64(time.Millisecond)
 }
