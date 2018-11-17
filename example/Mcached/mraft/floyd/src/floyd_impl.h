@@ -74,7 +74,7 @@ class FloydImpl : public Floyd, public moxie::Handler, public std::enable_shared
   void WakeUp();
   void PushTask(const RaftTask& task);
   void DoRaftTask(RaftTask& task);
-  void SetApplyNotify(const std::function<void (const ApplyTask& apply)>& apply_notify);
+  void SetApplyNotify(const std::function<bool (ApplyTask& apply)>& apply_notify);
 
   int GetLocalPort() {
     return options_.local_port;
@@ -97,7 +97,7 @@ class FloydImpl : public Floyd, public moxie::Handler, public std::enable_shared
   std::queue<RaftTask> tasks_;
   moxie::Mutex taskMutex_;
   moxie::Mutex applyTaskMutex_;
-  std::function<void (const ApplyTask& apply)> apply_notify_;
+  std::function<bool (ApplyTask& apply)> apply_notify_;
 
   rocksdb::DB* db_;
   // state machine db point

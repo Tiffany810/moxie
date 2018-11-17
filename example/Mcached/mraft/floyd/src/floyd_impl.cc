@@ -173,7 +173,7 @@ void FloydImpl::Process(const std::shared_ptr<moxie::PollerEvent>& event, moxie:
   }
 }
 
-void FloydImpl::SetApplyNotify(const std::function<void (const ApplyTask& apply)>& apply_notify) {
+void FloydImpl::SetApplyNotify(const std::function<bool (ApplyTask& apply)>& apply_notify) {
   moxie::MutexLocker locker(applyTaskMutex_);
   if (apply_notify) {
     apply_notify_ = apply_notify;

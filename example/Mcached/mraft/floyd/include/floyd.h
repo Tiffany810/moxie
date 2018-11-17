@@ -38,8 +38,6 @@ class Floyd  {
 
   // log level can be modified
   virtual void set_log_level(const int log_level) = 0;
-
-  virtual Status ExecMcached(const std::vector<std::string>& args, std::string& res) = 0;
  private:
   // No coping allowed
   Floyd(const Floyd&);

@@ -9,6 +9,7 @@ namespace floyd {
 struct RaftTask {
     std::vector<std::string> argv;
     uint64_t reqid;
+    
 };
 
 struct ApplyTask {

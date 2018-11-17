@@ -65,15 +65,20 @@ bool moxie::McachedClientHandler::DoMcachedCammand(EventLoop *loop) {
 
     if (this->argv_[0] == "get" || this->argv_[0] == "GET") {
         std::string res;
-        floyd_raft->ApplyMcached(this->argv_, res);
+        server_->ApplyMcached(this->argv_, res);
         this->DoFinallyMcached(loop, res);
         return true;
     }
-
-    floyd::MraftTask task;
+    uint64_t reqid = igen->Next();
+    auto succ = McachedServer::RegisterReqidNotify(reqid, std::bind(McachedClientHandler::MraftCallBack, std::placeholders::_1, shared_from_this()));
+    if (!reqid) {
+        // todo
+        std::cout << "Bugs" << std::endl;
+        return false;
+    }
+    floyd::RaftTask task;
     task.argv = this->argv_;
-    task.reqid = igen->Next();
-    task.raft_complete_notify = std::bind(McachedClientHandler::MraftCallBack, std::placeholders::_1, shared_from_this());
+    task.reqid = reqid;
     floyd_raft->PushTask(task);
     return true;
 }
