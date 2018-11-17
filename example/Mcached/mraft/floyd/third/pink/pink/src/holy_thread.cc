@@ -79,6 +79,9 @@ int HolyThread::StartThread() {
 }
 
 int HolyThread::StopThread() {
+  if (!handle_) {
+    std::cout << "handle is nullptr!" << std::endl;
+  }
   int ret = handle_->DeleteWorkerSpecificData(private_data_);
   if (ret != 0) {
     return ret;

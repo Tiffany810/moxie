@@ -106,29 +106,64 @@ static void BuildMembership(const std::vector<std::string>& opt_members, Members
 FloydImpl::FloydImpl(const Options& options)
   : wakeUpFd_(::eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC)),
     db_(NULL),
+    raft_log_(NULL),
+    raft_meta_(NULL),
     options_(options),
-    info_log_(NULL) {
+    info_log_(NULL),
+    context_(NULL),
+    worker_(NULL),
+    apply_(NULL),
+    primary_(NULL),
+    worker_client_pool_(NULL){
     assert(this->wakeUpFd_ > 0);
 }
 
 FloydImpl::~FloydImpl() {
   // worker will use floyd, delete worker first
-  worker_->Stop();
-  primary_->Stop();
-  apply_->Stop();
-  delete worker_;
-  delete worker_client_pool_;
-  delete primary_;
-  delete apply_;
+  if (worker_) {
+    worker_->Stop();
+    delete worker_;
+  }
+
+  if (primary_) {
+    primary_->Stop();
+    delete primary_;
+  }
+  
+  if (apply_) {
+    apply_->Stop();
+    delete apply_;
+  }
+  
+  if (worker_client_pool_) {
+    delete worker_client_pool_;
+  }
+  
   for (auto& pt : peers_) {
     pt.second->Stop();
     delete pt.second;
   }
-  delete context_;
-  delete raft_meta_;
-  delete raft_log_;
-  delete info_log_;
-  delete db_;
+
+  if (context_) {
+    delete context_;
+  }
+
+  if (raft_meta_) {
+    delete raft_meta_;
+  }
+
+  if (raft_log_) {
+    delete raft_log_;
+  } 
+
+  if (info_log_) {
+    delete info_log_;
+  }
+  
+  if (db_) {
+    delete db_;
+  }
+  
 }
 
 bool FloydImpl::IsSelf(const std::string& ip_port) {
@@ -297,6 +332,7 @@ int FloydImpl::InitPeers() {
 
 Status FloydImpl::Init() {
   slash::CreatePath(options_.path);
+  std::cout << "log_path:" << options_.path << std::endl;
   if (NewLogger(options_.path + "/LOG", &info_log_) != 0) {
     return Status::Corruption("Open LOG failed, ", strerror(errno));
   }

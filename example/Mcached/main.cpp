@@ -31,7 +31,7 @@ struct WorkContext {
     std::string ip;
 };
 
-void RegisterMcachedWorkerTask(EventLoop *loop, WorkContext *ctx) {
+void RegisterMcachedWorkerTask(EventLoop *loop, WorkContext *ctx, std::shared_ptr<EventLoopThread> et) {
     if (!ctx) {
         LOGGER_ERROR("Ctx is nulptr!");
         return;
@@ -56,7 +56,7 @@ void RegisterMcachedWorkerTask(EventLoop *loop, WorkContext *ctx) {
 
     // 注册监听套接字的处理类
     std::shared_ptr<PollerEvent> event = std::make_shared<PollerEvent>(server, moxie::kReadEvent);
-    if (!loop->Register(event, std::make_shared<McachedServer>())) {
+    if (!loop->Register(event, std::make_shared<McachedServer>(et))) {
         LOGGER_ERROR("Loop Register Error");
         return;
     }
@@ -91,6 +91,9 @@ int main(int argc, char **argv) {
         std::cout << s.ToString().c_str() << std::endl;
         return -1;
     }
+
+    floyd_raft->SetApplyNotify(McachedServer::ApplyRaftTask);
+
     auto raft_thread = std::make_shared<EventLoopThread>();
     raft_thread->Start();
     raft_thread->PushTask(std::bind(RegisterFloydImpl, std::placeholders::_1, floyd_raft));
@@ -121,7 +124,7 @@ int main(int argc, char **argv) {
         if (loop && ctx) {
             auto td = std::make_shared<EventLoopThread>();
             td->Start();
-            td->PushTask(std::bind(RegisterMcachedWorkerTask, std::placeholders::_1, ctx));
+            td->PushTask(std::bind(RegisterMcachedWorkerTask, std::placeholders::_1, ctx, td));
             thds.push_back(td);
         }
     }

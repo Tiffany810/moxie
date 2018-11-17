@@ -5,7 +5,7 @@ moxie::Mutex moxie::McachedServer::notifyMutex_;
 std::unordered_map<uint64_t, std::function<void (std::string& response)>> moxie::McachedServer::reqNotify_;
 
 void moxie::McachedServer::AfterAcceptSuccess(const std::shared_ptr<PollerEvent>& client, EventLoop *loop, const std::shared_ptr<moxie::NetAddress>& cad) {
-    if (!loop->Register(client, std::make_shared<McachedClientHandler>(this, client, cad))) {
+    if (!loop->Register(client, std::make_shared<McachedClientHandler>(this, client, cad, et_))) {
         ::close(client->GetFd());
         return;
     }

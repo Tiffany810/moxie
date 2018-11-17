@@ -41,7 +41,7 @@ bool moxie::Conf::ParseConf(const std::string& conf) {
             this->raftConf_.port = raft["port"].asInt();
         }
         if (raft.isMember("data") && raft["data"].isString()) {
-            this->raftConf_.ip = raft["data"].asString();
+            this->raftConf_.data = raft["data"].asString();
         }
     } else {
         this->raftConf_.vaild = false;
@@ -90,6 +90,11 @@ bool moxie::Conf::ParseConf(const std::string& conf) {
     } else {
         this->managerServiceConf_.vaild = false;
     }
+
+    this->raftConf_.Show();
+    this->managerServiceConf_.Show();
+    this->mcachedConf_.Show();
+    this->serviceConf_.Show();
 
     return true;
 }

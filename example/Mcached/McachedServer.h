@@ -19,11 +19,14 @@ namespace moxie {
 
 class McachedServer : public ListenHadler {
 public:
+    McachedServer(const std::shared_ptr<EventLoopThread>& et) 
+    :et_(et) { }    
     virtual void AfterAcceptSuccess(const std::shared_ptr<PollerEvent>& client, EventLoop *loop, const std::shared_ptr<moxie::NetAddress>& cad) override;
     static int ApplyMcached(std::vector<std::string>& args, std::string& response);
     static bool ApplyRaftTask(floyd::ApplyTask& apply);
     static bool RegisterReqidNotify(uint64_t reqid, const std::function<void (std::string& response)>& notify);
 private:
+    std::shared_ptr<EventLoopThread> et_;
     static Mcached mcached_;
     static moxie::Mutex notifyMutex_;
     static std::unordered_map<uint64_t, std::function<void (std::string& response)>> reqNotify_;

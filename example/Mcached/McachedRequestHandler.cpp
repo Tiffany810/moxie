@@ -7,12 +7,16 @@ extern std::shared_ptr<floyd::FloydImpl> floyd_raft;
 
 extern moxie::IdGenerator *igen;
 
-moxie::McachedClientHandler::McachedClientHandler(McachedServer *server, const std::shared_ptr<PollerEvent>& client,  const std::shared_ptr<moxie::NetAddress>& cad) :
+moxie::McachedClientHandler::McachedClientHandler(McachedServer *server, 
+                                                const std::shared_ptr<PollerEvent>& client, 
+                                                const std::shared_ptr<moxie::NetAddress>& cad, 
+                                                const std::shared_ptr<EventLoopThread>& et) :
     server_(server),
     event_(client),
     peer_(cad),
     argc_(0),
-    argv_() {
+    argv_(),
+    et_(et) {
 }
 
 void moxie::McachedClientHandler::AfetrRead(const std::shared_ptr<PollerEvent>& event, EventLoop *loop) {
@@ -62,7 +66,7 @@ bool moxie::McachedClientHandler::DoMcachedCammand(EventLoop *loop) {
     assert(argc_ == argv_.size());
     assert(argc_ > 0);
     assert(floyd_raft);
-
+    DebugArgcArgv();
     if (this->argv_[0] == "get" || this->argv_[0] == "GET") {
         std::string res;
         server_->ApplyMcached(this->argv_, res);
@@ -79,7 +83,9 @@ bool moxie::McachedClientHandler::DoMcachedCammand(EventLoop *loop) {
     floyd::RaftTask task;
     task.argv = this->argv_;
     task.reqid = reqid;
+    std::cout << "Before push task." << std::endl;
     floyd_raft->PushTask(task);
+    std::cout << "After push task." << std::endl;
     return true;
 }
 

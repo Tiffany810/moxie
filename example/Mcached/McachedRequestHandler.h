@@ -17,7 +17,10 @@ class McachedServer;
 
 class McachedClientHandler : public ClientHandler, public std::enable_shared_from_this<McachedClientHandler> {
 public:
-    McachedClientHandler(McachedServer *server, const std::shared_ptr<PollerEvent>& client,  const std::shared_ptr<moxie::NetAddress>& cad);
+    McachedClientHandler(McachedServer *server, 
+                        const std::shared_ptr<PollerEvent>& client, 
+                        const std::shared_ptr<moxie::NetAddress>& cad, 
+                        const std::shared_ptr<EventLoopThread>& et);
     virtual void AfetrRead(const std::shared_ptr<PollerEvent>& event, EventLoop *loop) override;
     virtual void AfetrWrite(const std::shared_ptr<PollerEvent>& event, EventLoop *loop) override;
     static void MraftCallBack(const std::string& response, std::shared_ptr<McachedClientHandler> client);
