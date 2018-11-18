@@ -1,6 +1,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <string.h>
 
 #include <TimerEngine.h>
 #include <Epoll.h>

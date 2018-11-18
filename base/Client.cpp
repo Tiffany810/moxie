@@ -1,4 +1,5 @@
 #include <sys/epoll.h>
+#include <string.h>
 
 #include <Client.h>
 #include <Epoll.h>

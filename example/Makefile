@@ -1,3 +1,4 @@
+include ../config.mk
 libs := -lhttp -lutils -lmoxie -lpthread
 cflags := -O2 -std=c++11 -static -Wall
 CC = g++
