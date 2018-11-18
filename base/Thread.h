@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <string>
 #include <syscall.h>
+#include <string.h>
 #include <functional>
 
 namespace moxie {

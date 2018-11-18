@@ -1,4 +1,3 @@
-
 moxie:
 	mkdir -p lib
 	make -C base

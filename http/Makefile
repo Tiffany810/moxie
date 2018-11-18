@@ -1,4 +1,4 @@
-libs := -lpthread
+libs := -lglog -lpthread
 cflags := -g -std=c++11 -static -Wall -DNDEBUG
 CC = g++
 
