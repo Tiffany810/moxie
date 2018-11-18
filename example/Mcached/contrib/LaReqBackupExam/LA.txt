@@ -1,6 +1,0 @@
-I1029 15:51:15.959643  7329 client.cpp:76] balancer:la reqs:1000 total_time:89925
-I1029 15:51:16.254490  7329 client.cpp:76] balancer:la reqs:2000 total_time:294684
-I1029 15:51:16.570108  7329 client.cpp:76] balancer:la reqs:3000 total_time:315482
-I1029 15:51:16.840549  7329 client.cpp:76] balancer:la reqs:4000 total_time:270308
-I1029 15:51:17.094280  7329 client.cpp:76] balancer:la reqs:5000 total_time:253583
-

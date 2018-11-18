@@ -17,9 +17,7 @@ moxie:${base_srcs} ${base_headers} ${http_srcs} ${http_headers}
 	$(CC) TimerExam.cpp  -I${moxie_base} -I${moxie_http} -I./ -L${moxie_libs} $(cflags) -o Example_bin_TimerExam  $(libs)
 	$(CC) EventLoopThreadExam.cpp  -I${moxie_base} -I${moxie_http} -I./ -L${moxie_libs} $(cflags) -o Example_bin_EventLoopThreadExam  $(libs)
 	$(CC) Http.cpp  -I${moxie_base} -I${moxie_http} -I./ -L${moxie_libs} $(cflags) -o Example_bin_Http  $(libs)
-	make -C Mcached
 .PHONY : clean
 clean:
 	rm *.o -rf
 	rm Example_bin_* -rf
-	make clean -C Mcached
