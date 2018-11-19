@@ -6,9 +6,10 @@
 #include <sys/socket.h>
 #include <netinet/tcp.h>
 
-#include <Socket.h>
-#include <Log.h>
-#include <NetAddress.h>
+#include <moxie/base/Socket.h>
+#include <moxie/base/Log.h>
+#include <moxie/base/NetAddress.h>
+#include <moxie/base/Epoll.h>
 
 bool moxie::Socket::SetNoBlocking(int sock) {
     int flag = ::fcntl(sock, F_GETFL);
@@ -60,6 +61,42 @@ bool moxie::Socket::Connect(int sock, const NetAddress& addr) {
         return false;
     }
     return true;
+}
+
+bool checkConnectSucc(int sd) {
+    int error = 0;
+    socklen_t len = sizeof(error);
+    if (getsockopt(sd, SOL_SOCKET, SO_ERROR,
+                reinterpret_cast<char *>(&error), &len) == 0) {
+        if (error != 0) {
+            LOGGER_ERROR(" getsockopt : " << ::strerror(error));
+            return false;
+        }
+        return true;
+    } else {
+        LOGGER_ERROR(" getsockopt : " << ::strerror(errno));
+        return false;
+    } 
+}
+
+bool moxie::Socket::Connect(int sock, const NetAddress& addr, int64_t ms) {
+    if(true == Socket::Connect(sock, addr) && errno != EINPROGRESS) {
+        return true;
+    }
+
+    Epoll poll;
+    struct epoll_event et;
+    et.events = kReadEvent;
+    et.data.fd = sock;
+
+    poll.EventAdd(sock, &et);
+
+    int ret = poll.LoopWait(&et, 1, ms);
+    if (ret <= 0) {
+        return false;
+    }
+
+    return checkConnectSucc(sock);
 }
 
 int moxie::Socket::Accept(int sock, moxie::NetAddress& addr, bool noblockingexec) {

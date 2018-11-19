@@ -2,11 +2,11 @@
 #define MOXIE_WAKEUPER_H
 #include <sys/eventfd.h>
 
-#include <Handler.h>
+#include <moxie/base/Handler.h>
 
 namespace mxoie {
     
-class Wakeuper : public Handler {
+class Wakeuper : virtual public Handler {
 public:
     Wakeuper() 
         : Wakeup_(::eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC)) {

@@ -12,6 +12,7 @@ namespace Socket {
     bool Bind(int sock, const NetAddress& addr);
     bool Listen(int sock, int backlog);
     bool Connect(int sock, const NetAddress& addr);
+    bool Connect(int sock, const NetAddress& addr, int64_t ms);
     int Accept(int sock, NetAddress& addr, bool noblockingexec);
     int Accept(int sock, bool noblockingexec);
     bool SetTcpNodelay(int sock);
