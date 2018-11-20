@@ -23,9 +23,6 @@ public:
     bool EventCtl(int op, int fd, struct epoll_event* event);
 private:
     int epoll_fd_;
-    std::vector<struct epoll_event> revents_;
-    int maxNum_;
-    const int addStep_;
 };
 
 }

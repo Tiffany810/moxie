@@ -10,15 +10,10 @@
 #include <Log.h>
 
 moxie::Epoll::Epoll() :
-    epoll_fd_(-1),
-    revents_(),
-    maxNum_(20),
-    addStep_(15) {//FIXME : EPOLL_CLOEXEC
-    epoll_fd_ = ::epoll_create1(EPOLL_CLOEXEC);
+    epoll_fd_(::epoll_create1(EPOLL_CLOEXEC)) {
     if(epoll_fd_ == -1) {
         LOGGER_SYSERR("epoll_create error : " << ::strerror(errno));
     }
-    revents_.resize(maxNum_);
 }
 
 bool moxie::Epoll::EventCtl(int op, int sd, struct epoll_event* event) {

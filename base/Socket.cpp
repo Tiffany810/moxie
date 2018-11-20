@@ -86,13 +86,17 @@ bool moxie::Socket::Connect(int sock, const NetAddress& addr, int64_t ms) {
 
     Epoll poll;
     struct epoll_event et;
-    et.events = kReadEvent;
+    et.events = kReadEvent | kWriteEvent;
     et.data.fd = sock;
 
-    poll.EventAdd(sock, &et);
+    if (!poll.EventAdd(sock, &et)) {
+        LOGGER_ERROR("Epoll event add failed!");
+        return false;
+    }
 
     int ret = poll.LoopWait(&et, 1, ms);
     if (ret <= 0) {
+        LOGGER_ERROR("Epoll wait failed!");
         return false;
     }
 
