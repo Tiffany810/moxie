@@ -1,7 +1,7 @@
 #include <assert.h>
 
-#include <Timer.h>
-#include <Log.h>
+#include <moxie/base/Timer.h>
+#include <moxie/base/Log.h>
 
 moxie::Timer::Timer(const moxie::TimerCallback& cb, moxie::Timestamp when, double interval) :
     callback_(cb),

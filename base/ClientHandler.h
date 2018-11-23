@@ -1,8 +1,8 @@
 #ifndef MOXIE_CLIENTHANDLER_H
 #define MOXIE_CLIENTHANDLER_H
-#include <Handler.h>
-#include <Buffer.h>
-#include <Log.h>
+#include <moxie/base/Handler.h>
+#include <moxie/base/Buffer.h>
+#include <moxie/base/Log.h>
 
 namespace moxie {
 

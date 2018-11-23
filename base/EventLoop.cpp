@@ -1,7 +1,7 @@
 #include <string.h>
 
-#include <Log.h>
-#include <EventLoop.h>
+#include <moxie/base/Log.h>
+#include <moxie/base/EventLoop.h>
 
 size_t moxie::EventLoop::kEpollRetBufSize = 128;
 size_t moxie::EventLoop::kDefaultTimeOut = 1000;

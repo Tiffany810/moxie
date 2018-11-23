@@ -1,9 +1,9 @@
 #ifndef MOXIE_IDGENERATOR_H
 #define MOXIE_IDGENERATOR_H
 
-#include <Mutex.h>
-#include <MutexLocker.h>
-#include <Timestamp.h>
+#include <moxie/base/Mutex.h>
+#include <moxie/base/MutexLocker.h>
+#include <moxie/base/Timestamp.h>
 
 namespace moxie {
 

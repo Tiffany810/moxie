@@ -4,8 +4,8 @@
 #include <vector>
 #include <unistd.h>
 
-#include <Timestamp.h>
-#include <PollerEvent.h>
+#include <moxie/base/Timestamp.h>
+#include <moxie/base/PollerEvent.h>
 
 namespace moxie {
 
@@ -23,9 +23,6 @@ public:
     bool EventCtl(int op, int fd, struct epoll_event* event);
 private:
     int epoll_fd_;
-    std::vector<struct epoll_event> revents_;
-    int maxNum_;
-    const int addStep_;
 };
 
 }

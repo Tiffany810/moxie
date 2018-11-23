@@ -1,5 +1,6 @@
-#include <HttpRequest.h>
 #include <iostream>
+
+#include <moxie/http/HttpRequest.h>
 
 moxie::HttpRequest::HttpRequest() 
     : body_(1024) {

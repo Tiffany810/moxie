@@ -1,7 +1,7 @@
 #ifndef MOXIE_LISTENHADLER_H
 #define MOXIE_LISTENHADLER_H
-#include <Handler.h>
-#include <NetAddress.h>
+#include <moxie/base/Handler.h>
+#include <moxie/base/NetAddress.h>
 
 namespace moxie {
 

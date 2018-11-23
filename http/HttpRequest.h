@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 
-#include <Buffer.h>
+#include <moxie/base/Buffer.h>
 
 namespace moxie {
 

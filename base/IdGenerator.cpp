@@ -1,6 +1,6 @@
 #include <limits>
 
-#include <IdGenerator.h>
+#include <moxie/base/IdGenerator.h>
 
 moxie::IdGenerator::IdGenerator(int64_t memberid, uint64_t nano) {
     this->prefix_ = memberid << kSuffixLen;

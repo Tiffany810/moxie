@@ -2,8 +2,8 @@
 #include <sys/eventfd.h>
 #include <utility>
 
-#include <EventLoopThread.h>
-#include <Timer.h>
+#include <moxie/base/EventLoopThread.h>
+#include <moxie/base/Timer.h>
 
 moxie::EventLoopThread::EventLoopThread() 
     : loopThread_(new InnerLoopThread) {

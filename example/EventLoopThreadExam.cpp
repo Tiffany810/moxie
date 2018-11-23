@@ -1,6 +1,7 @@
 #include <functional>
 #include <iostream>
-#include <EventLoopThread.h>
+
+#include <moxie/base/EventLoopThread.h>
 
 using namespace moxie;
 using namespace std;

@@ -1,4 +1,4 @@
-#include <HttpResponse.h>
+#include <moxie/http/HttpResponse.h>
 
 moxie::HttpResponse::HttpResponse() 
     :body_(1024) {

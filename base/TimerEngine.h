@@ -7,9 +7,9 @@
 #include <list>
 #include <unordered_map>
 
-#include <Handler.h>
-#include <Timestamp.h>
-#include <Timer.h>
+#include <moxie/base/Handler.h>
+#include <moxie/base/Timestamp.h>
+#include <moxie/base/Timer.h>
 
 namespace moxie {
 
