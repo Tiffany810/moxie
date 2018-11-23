@@ -2,7 +2,7 @@
 #define MOXIE_MUTEXLOCKER_H
 #include <pthread.h>
 
-#include <Mutex.h>
+#include <moxie/base/Mutex.h>
 
 namespace moxie {
 

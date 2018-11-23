@@ -3,7 +3,7 @@
 #include <iostream>
 #include <strings.h>
 
-#include <NetAddress.h>
+#include <moxie/base/NetAddress.h>
 
 moxie::NetAddress::NetAddress(ushort sa_family, int sa_port, const char *sa_ip):
     family_(sa_family),

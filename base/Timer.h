@@ -2,7 +2,7 @@
 #define MOXIE_TIMER_H
 #include <functional>
 
-#include <Timestamp.h>
+#include <moxie/base/Timestamp.h>
 
 namespace moxie {
 

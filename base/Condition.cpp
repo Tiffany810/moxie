@@ -1,7 +1,7 @@
 #include <errno.h>
 
-#include <Condition.h>
-#include <Mutex.h>
+#include <moxie/base/Condition.h>
+#include <moxie/base/Mutex.h>
 
 moxie::Condition::Condition(Mutex& mutex) :
     mutex_(mutex) {

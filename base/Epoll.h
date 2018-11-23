@@ -4,8 +4,8 @@
 #include <vector>
 #include <unistd.h>
 
-#include <Timestamp.h>
-#include <PollerEvent.h>
+#include <moxie/base/Timestamp.h>
+#include <moxie/base/PollerEvent.h>
 
 namespace moxie {
 

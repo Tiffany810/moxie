@@ -2,8 +2,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <Thread.h>
-#include <Log.h>
+#include <moxie/base/Thread.h>
+#include <moxie/base/Log.h>
 
 moxie::Thread::Thread(){
 }

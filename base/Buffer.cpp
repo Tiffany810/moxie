@@ -2,8 +2,8 @@
 #include <sys/uio.h>
 #include <sys/types.h>
 
-#include <Buffer.h>
-#include <Socket.h>
+#include <moxie/base/Buffer.h>
+#include <moxie/base/Socket.h>
 
 const char moxie::Buffer::kCRLF[] = "\r\n";
 const size_t moxie::Buffer::kCheapPrepend;

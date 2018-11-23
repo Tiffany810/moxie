@@ -6,12 +6,12 @@
 #include <string>
 #include <memory>
 
-#include <ClientHandler.h>
-#include <EventLoop.h>
-#include <PollerEvent.h>
-#include <NetAddress.h>
-#include <HttpRequest.h>
-#include <HttpResponse.h>
+#include <moxie/base/ClientHandler.h>
+#include <moxie/base/EventLoop.h>
+#include <moxie/base/PollerEvent.h>
+#include <moxie/base/NetAddress.h>
+#include <moxie/http/HttpRequest.h>
+#include <moxie/http/HttpResponse.h>
 
 namespace moxie {
 

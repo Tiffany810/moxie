@@ -5,11 +5,11 @@
 #include <memory>
 #include <sys/eventfd.h>
 
-#include <EventLoop.h>
-#include <Thread.h>
-#include <Mutex.h>
-#include <MutexLocker.h>
-#include <Condition.h>
+#include <moxie/base/EventLoop.h>
+#include <moxie/base/Thread.h>
+#include <moxie/base/Mutex.h>
+#include <moxie/base/MutexLocker.h>
+#include <moxie/base/Condition.h>
 
 namespace moxie {
 

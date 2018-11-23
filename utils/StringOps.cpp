@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 
-#include <StringOps.h>
+#include <moxie/utils/StringOps.h>
 
 std::vector<std::string> moxie::utils::StringSplit(const std::string& str, const std::string& d) {
     std::string::size_type pos = 0;

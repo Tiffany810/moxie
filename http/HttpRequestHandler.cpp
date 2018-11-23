@@ -1,6 +1,6 @@
-#include <HttpRequestHandler.h>
-#include <utils/BitsOps.h>
-#include <utils/StringOps.h>
+#include <moxie/http/HttpRequestHandler.h>
+#include <moxie/utils/BitsOps.h>
+#include <moxie/utils/StringOps.h>
 
 moxie::HttpClientHandler::HttpClientHandler(const std::shared_ptr<PollerEvent>& client,  const std::shared_ptr<moxie::NetAddress>& cad) :
     event_(client),
